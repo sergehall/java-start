@@ -1,6 +1,15 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Code2, Coffee, LockKeyhole, Sparkles } from "lucide-react";
 import { AppShell } from "@/shared/ui/AppShell";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/"
+  },
+  description: "Learn how a Next.js frontend and Java Spring Boot backend work together in a practical fullstack app.",
+  title: "Fullstack Java and Next.js Learning"
+};
 
 export default function HomePage() {
   return (

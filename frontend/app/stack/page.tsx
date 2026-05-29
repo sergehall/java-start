@@ -1,5 +1,14 @@
+import type { Metadata } from "next";
 import { ArrowRight, Code2, Cookie, Database, ServerCog } from "lucide-react";
 import { AppShell } from "@/shared/ui/AppShell";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/stack"
+  },
+  description: "Explore the Java Start stack: Next.js routes, secure sessions, Spring Boot APIs, and PostgreSQL.",
+  title: "Stack Lab"
+};
 
 const stackSteps = [
   {
