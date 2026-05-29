@@ -303,6 +303,16 @@ pnpm test
 pnpm build
 ```
 
+## GitHub Actions
+
+The repository includes a light CI setup under `.github/workflows`:
+
+- `lint.yml` checks backend formatting, frontend formatting, ESLint, and TypeScript.
+- `backend-tests.yml` runs the Spring Boot test suite with the Maven Wrapper.
+- `frontend-tests.yml` runs Vitest and a Next.js production build smoke check.
+
+CI intentionally does not start Docker or PostgreSQL yet. The backend tests use the H2 test database so pushes stay fast while the project is still a learning app.
+
 ## Learning Map
 
 This project is built to make the fullstack flow visible:
