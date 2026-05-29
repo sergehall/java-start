@@ -46,27 +46,32 @@ export function MobileNavDots({ active, items }: MobileNavDotsProps) {
   }, [open]);
 
   return (
-    <div className="mobile-nav-dots" ref={menuRef}>
+    <div className="relative ml-auto hidden max-lg:block" ref={menuRef}>
       <button
         aria-expanded={open}
         aria-label="Open navigation"
-        className="mobile-nav-button"
+        className="bg-dark-panel text-brand-soft inline-flex h-[42px] w-[46px] cursor-pointer items-center justify-center rounded-full border border-[var(--dark-line)] aria-expanded:border-[var(--brand-ring)]"
         onClick={() => setOpen((current) => !current)}
         type="button"
       >
-        <span className="sr-only">Open navigation</span>
-        <span className="mobile-nav-dot-grid" aria-hidden="true">
-          <span className="mobile-nav-dot" />
-          <span className="mobile-nav-dot" />
-          <span className="mobile-nav-dot" />
+        <span className="flex items-center gap-1" aria-hidden="true">
+          <span className="block size-[5px] rounded-full bg-current" />
+          <span className="block size-[5px] rounded-full bg-current" />
+          <span className="block size-[5px] rounded-full bg-current" />
         </span>
       </button>
 
       {open ? (
-        <nav className="mobile-nav-menu" aria-label="Mobile navigation">
+        <nav
+          className="border-line bg-panel absolute top-[calc(100%+10px)] right-0 z-40 grid min-w-[220px] gap-1.5 rounded-lg border p-2 shadow-[0_18px_50px_rgba(29,27,23,0.18)]"
+          aria-label="Mobile navigation"
+        >
           {items.map((item) => (
             <Link
-              className={cn("mobile-nav-menu-link", item.id === active && "mobile-nav-menu-link-active")}
+              className={cn(
+                "text-ink hover:text-brand-strong min-h-10 rounded-lg border border-transparent px-3 py-2.5 hover:border-[var(--brand-ring)] hover:bg-[var(--brand-wash)]",
+                item.id === active && "text-brand-strong border-[var(--brand-ring)] bg-[var(--brand-wash)]"
+              )}
               href={item.href}
               key={item.id}
               onClick={() => setOpen(false)}

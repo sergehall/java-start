@@ -14,44 +14,55 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <AppShell active="home" eyebrow="next-java://home">
-      <section className="hero-grid">
-        <div className="hero-copy">
-          <p className="eyebrow">Next.js + Java Spring Boot</p>
-          <h1>Fullstack learning without pretending the stack is magic.</h1>
-          <p className="lead">
+      <section className="mx-auto grid w-full max-w-[1180px] grid-cols-[minmax(0,0.9fr)_minmax(320px,1.1fr)] items-center gap-10 max-lg:grid-cols-1">
+        <div>
+          <p className="text-brand mb-3 text-xs font-extrabold uppercase">Next.js + Java Spring Boot</p>
+          <h1 className="m-0 text-[clamp(2.8rem,9vw,6.4rem)] leading-none tracking-normal">
+            Fullstack learning without pretending the stack is magic.
+          </h1>
+          <p className="text-muted max-w-[660px] text-lg leading-relaxed">
             A learning dashboard where frontend and backend work as a pair: Next.js keeps the web interface fast, while
             Java owns security, data, and a clear API.
           </p>
-          <div className="actions">
-            <Link className="button button-primary" href="/register">
+          <div className="mt-7 flex flex-wrap items-center gap-3">
+            <Link
+              className="bg-ink text-panel inline-flex min-h-[46px] items-center justify-center gap-2.5 rounded-lg border border-transparent px-[18px] font-extrabold transition duration-150 hover:-translate-y-px"
+              href="/register"
+            >
               Get started
               <ArrowRight size={18} />
             </Link>
-            <Link className="button button-ghost" href="/login">
+            <Link
+              className="border-line text-ink inline-flex min-h-[46px] items-center justify-center gap-2.5 rounded-lg border bg-transparent px-[18px] font-extrabold transition duration-150 hover:-translate-y-px"
+              href="/login"
+            >
               Sign in
             </Link>
           </div>
         </div>
 
-        <div className="stack-board" aria-label="Application stack preview">
-          <div className="stack-card stack-card-next">
+        <div
+          className="border-line grid min-h-[520px] grid-cols-1 place-items-center gap-[18px] rounded-lg border bg-[#efe7db] bg-[linear-gradient(90deg,rgba(29,27,23,0.04)_1px,transparent_1px),linear-gradient(0deg,rgba(29,27,23,0.04)_1px,transparent_1px)] bg-[length:32px_32px] p-7 max-lg:min-h-0"
+          aria-label="Application stack preview"
+        >
+          <div className="border-line border-t-blue flex w-full max-w-[360px] flex-col items-start gap-3 rounded-lg border border-t-[5px] bg-[rgba(255,250,241,0.92)] p-6 shadow-[var(--shadow-card)]">
             <Code2 size={24} />
-            <span>Next.js</span>
-            <strong>UI, routes, BFF</strong>
+            <span className="text-muted font-extrabold">Next.js</span>
+            <strong className="text-2xl">UI, routes, BFF</strong>
           </div>
-          <div className="stack-rail" />
-          <div className="stack-card stack-card-java">
+          <div className="h-1 w-[min(280px,70%)] bg-[repeating-linear-gradient(90deg,var(--mint),var(--mint)_12px,transparent_12px,transparent_22px)]" />
+          <div className="border-line border-t-brand flex w-full max-w-[360px] flex-col items-start gap-3 rounded-lg border border-t-[5px] bg-[rgba(255,250,241,0.92)] p-6 shadow-[var(--shadow-card)]">
             <Coffee size={24} />
-            <span>Spring Boot</span>
-            <strong>Auth, API, domain</strong>
+            <span className="text-muted font-extrabold">Spring Boot</span>
+            <strong className="text-2xl">Auth, API, domain</strong>
           </div>
-          <div className="signal-card">
+          <div className="border-line flex w-[min(360px,100%)] items-center gap-2.5 rounded-lg border bg-[rgba(255,250,241,0.92)] px-4 py-3.5 shadow-[var(--shadow-card)]">
             <LockKeyhole size={18} />
-            <span>httpOnly session cookie</span>
+            <span className="text-muted font-extrabold">httpOnly session cookie</span>
           </div>
-          <div className="signal-card">
+          <div className="border-line flex w-[min(360px,100%)] items-center gap-2.5 rounded-lg border bg-[rgba(255,250,241,0.92)] px-4 py-3.5 shadow-[var(--shadow-card)]">
             <Sparkles size={18} />
-            <span>Learning state cabinet</span>
+            <span className="text-muted font-extrabold">Learning state cabinet</span>
           </div>
         </div>
       </section>

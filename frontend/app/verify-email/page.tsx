@@ -4,17 +4,17 @@ import { VerifyEmailPanel } from "@/features/auth/VerifyEmailPanel";
 
 export default function VerifyEmailPage() {
   return (
-    <main className="auth-screen">
-      <section className="auth-panel">
+    <main className="grid min-h-screen place-items-center p-8 max-lg:p-[18px]">
+      <section className="border-line grid w-full max-w-[460px] gap-6 rounded-lg border bg-[rgba(255,250,241,0.92)] p-8 shadow-[var(--shadow-card)]">
         <div>
-          <p className="eyebrow">Account activation</p>
-          <h1>Verify email</h1>
-          <p className="muted">Use the email link to activate your Java Start cabinet.</p>
+          <p className="text-brand mb-3 text-xs font-extrabold uppercase">Account activation</p>
+          <h1 className="m-0 text-[2.6rem] leading-none tracking-normal">Verify email</h1>
+          <p className="text-muted leading-relaxed">Use the email link to activate your Java Start cabinet.</p>
         </div>
-        <Suspense fallback={<p className="muted">Loading verification state...</p>}>
+        <Suspense fallback={<p className="text-muted leading-relaxed">Loading verification state...</p>}>
           <VerifyEmailPanel />
         </Suspense>
-        <p className="muted">
+        <p className="text-muted leading-relaxed">
           Already verified? <Link href="/login">Sign in</Link>
         </p>
       </section>

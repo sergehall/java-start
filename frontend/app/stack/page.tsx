@@ -40,20 +40,26 @@ const stackSteps = [
 export default function StackPage() {
   return (
     <AppShell active="stack" eyebrow="next-java://stack">
-      <section className="stack-lab">
-        <h1 className="sr-only">Stack lab</h1>
+      <section className="grid grid-cols-4 gap-3.5 max-xl:grid-cols-2 max-lg:grid-cols-1" aria-label="Stack lab">
         {stackSteps.map((step, index) => {
           const Icon = step.icon;
           return (
-            <article className="stack-step" key={step.title}>
-              <div className="stack-step-icon">
+            <article
+              className="border-line relative grid min-h-[300px] gap-3 rounded-lg border bg-[rgba(255,250,241,0.92)] p-5 shadow-[var(--shadow-card)]"
+              key={step.title}
+            >
+              <div className="text-mint-strong grid size-12 place-items-center rounded-lg border border-[rgba(20,125,100,0.22)] bg-[#eef8f3]">
                 <Icon size={24} />
               </div>
-              <span>{step.label}</span>
-              <h2>{step.title}</h2>
-              <p>{step.description}</p>
+              <span className="text-muted text-xs font-black uppercase">{step.label}</span>
+              <h2 className="m-0">{step.title}</h2>
+              <p className="text-muted m-0 leading-relaxed">{step.description}</p>
               {index < stackSteps.length - 1 ? (
-                <ArrowRight className="stack-step-arrow" size={20} aria-hidden="true" />
+                <ArrowRight
+                  className="text-brand absolute top-8 -right-[18px] z-10 max-lg:hidden"
+                  size={20}
+                  aria-hidden="true"
+                />
               ) : null}
             </article>
           );

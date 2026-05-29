@@ -66,28 +66,35 @@ export function VerifyEmailPanel() {
   }
 
   return (
-    <div className="form-stack">
-      <div className="status-panel">
-        <div className="icon-line">
-          {state === "verifying" ? <Loader2 className="spin" size={20} /> : <MailCheck size={20} />}
-          <span>{state === "verified" ? "Verified" : "Email verification"}</span>
+    <div className="grid gap-4">
+      <div className="border-line rounded-lg border bg-[rgba(255,250,241,0.92)] p-6 shadow-[var(--shadow-card)]">
+        <div className="flex items-center gap-2.5">
+          {state === "verifying" ? <Loader2 className="animate-spin" size={20} /> : <MailCheck size={20} />}
+          <span className="text-muted font-extrabold">{state === "verified" ? "Verified" : "Email verification"}</span>
         </div>
-        <p className="muted">
+        <p className="text-muted leading-relaxed">
           {token
             ? "We are checking the verification link from your email."
             : "Create an account first, then use the verification link from your inbox."}
         </p>
-        {message ? <p className={state === "failed" ? "form-error" : "form-success"}>{message}</p> : null}
+        {message ? (
+          <p className={state === "failed" ? "m-0 text-[#a63b2b]" : "text-mint-strong m-0 font-extrabold"}>{message}</p>
+        ) : null}
       </div>
 
       {state !== "verified" ? (
-        <form className="form-stack" onSubmit={handleSubmit(onResend)}>
-          <label className="field">
-            <span>Email</span>
-            <input autoComplete="email" inputMode="email" {...register("email", { required: true })} />
+        <form className="grid gap-4" onSubmit={handleSubmit(onResend)}>
+          <label className="grid gap-2">
+            <span className="text-muted text-sm font-extrabold">Email</span>
+            <input
+              className="border-line text-ink min-h-[46px] w-full rounded-lg border bg-[#fffdf8] px-3 py-2.5"
+              autoComplete="email"
+              inputMode="email"
+              {...register("email", { required: true })}
+            />
           </label>
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? <Loader2 className="spin" size={18} /> : <ArrowRight size={18} />}
+            {isSubmitting ? <Loader2 className="animate-spin" size={18} /> : <ArrowRight size={18} />}
             Send a fresh link
           </Button>
         </form>

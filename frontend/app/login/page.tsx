@@ -10,15 +10,15 @@ export default async function LoginPage() {
   }
 
   return (
-    <main className="auth-screen">
-      <section className="auth-panel">
+    <main className="grid min-h-screen place-items-center p-8 max-lg:p-[18px]">
+      <section className="border-line grid w-full max-w-[460px] gap-6 rounded-lg border bg-[rgba(255,250,241,0.92)] p-8 shadow-[var(--shadow-card)]">
         <div>
-          <p className="eyebrow">Welcome back</p>
-          <h1>Sign in</h1>
-          <p className="muted">Keep building your Java + Next.js dashboard.</p>
+          <p className="text-brand mb-3 text-xs font-extrabold uppercase">Welcome back</p>
+          <h1 className="m-0 text-[2.6rem] leading-none tracking-normal">Sign in</h1>
+          <p className="text-muted leading-relaxed">Keep building your Java + Next.js dashboard.</p>
         </div>
         <AuthForm mode="login" />
-        <p className="muted">
+        <p className="text-muted leading-relaxed">
           No account yet? <Link href="/register">Create one</Link>
         </p>
       </section>
