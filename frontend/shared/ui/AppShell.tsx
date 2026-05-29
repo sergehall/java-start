@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/shared/api/server";
 import type { UserSummary } from "@/shared/api/contracts";
 import { cn } from "@/shared/lib/cn";
 import { AccountDock } from "@/shared/ui/AccountDock";
+import { MobileNavDots } from "@/shared/ui/MobileNavDots";
 
 type NavItem = {
   id: string;
@@ -12,7 +13,8 @@ type NavItem = {
 
 const publicNavigation: NavItem[] = [
   { id: "home", href: "/", label: "Home" },
-  { id: "stack", href: "/stack", label: "Stack lab" }
+  { id: "stack", href: "/stack", label: "Stack lab" },
+  { id: "contact", href: "/contact", label: "Contact" }
 ];
 
 const privateNavigation: NavItem[] = [
@@ -20,6 +22,7 @@ const privateNavigation: NavItem[] = [
   { id: "profile", href: "/profile", label: "Profile" },
   { id: "states", href: "/states", label: "Learning states" },
   { id: "stack", href: "/stack", label: "Stack lab" },
+  { id: "contact", href: "/contact", label: "Contact" },
   { id: "settings", href: "/settings", label: "Settings" }
 ];
 
@@ -27,7 +30,7 @@ type AppShellProps = Readonly<{
   active: string;
   children: React.ReactNode;
   eyebrow?: string;
-  title: string;
+  title?: string;
   user?: UserSummary | null;
 }>;
 
@@ -43,7 +46,7 @@ export async function AppShell({ active, children, eyebrow = "java-start://learn
       >
         <Link className="flex items-center gap-3" href={currentUser ? "/dashboard" : "/"}>
           <span
-            className="grid size-[42px] flex-none place-items-center rounded-lg border border-[rgba(199,221,204,0.28)] bg-[var(--dark-panel)] font-mono font-black text-[#74d6b8]"
+            className="grid size-[42px] flex-none place-items-center rounded-lg border border-[rgba(199,221,204,0.28)] bg-[var(--dark-panel)] font-mono font-black text-[var(--brand-soft)]"
             aria-hidden="true"
           >
             JS
@@ -58,8 +61,8 @@ export async function AppShell({ active, children, eyebrow = "java-start://learn
           {navigation.map((item) => (
             <Link
               className={cn(
-                "min-h-10 rounded-lg border border-transparent px-3 py-2.5 text-[var(--dark-muted)] transition-colors hover:border-[rgba(116,214,184,0.28)] hover:bg-[var(--dark-panel)] hover:text-[#74d6b8]",
-                item.id === active && "border-[rgba(116,214,184,0.28)] bg-[var(--dark-panel)] text-[#74d6b8]"
+                "min-h-10 rounded-lg border border-transparent px-3 py-2.5 text-[var(--dark-muted)] transition-colors hover:border-[var(--brand-ring)] hover:bg-[var(--dark-panel)] hover:text-[var(--brand-soft)]",
+                item.id === active && "border-[var(--brand-ring)] bg-[var(--dark-panel)] text-[var(--brand-soft)]"
               )}
               href={item.href}
               key={item.id}
@@ -68,31 +71,20 @@ export async function AppShell({ active, children, eyebrow = "java-start://learn
             </Link>
           ))}
         </nav>
+
+        <MobileNavDots active={active} items={navigation} />
       </aside>
 
       <main className="min-w-0 px-5 py-5 pb-10 sm:px-6 lg:px-[clamp(20px,4vw,42px)]">
         <header className="mb-7 grid gap-5 sm:flex sm:items-start sm:justify-between">
           <div>
-            <p className="m-0 font-mono text-xs font-black text-[var(--coral)]">{eyebrow}</p>
-            <h1 className="mt-2 text-[clamp(2.4rem,6vw,5rem)] leading-[0.95] tracking-normal">{title}</h1>
+            <p className="m-0 font-mono text-xs font-black text-[var(--brand)]">{eyebrow}</p>
+            {title ? (
+              <h1 className="mt-2 text-[clamp(2.4rem,6vw,5rem)] leading-[0.95] tracking-normal">{title}</h1>
+            ) : null}
           </div>
           {currentUser ? <AccountDock user={currentUser} /> : <AuthDock />}
         </header>
-
-        <nav className="mb-5 flex gap-2 overflow-x-auto pb-1 lg:hidden" aria-label="Mobile sections">
-          {navigation.map((item) => (
-            <Link
-              className={cn(
-                "min-h-10 flex-none rounded-full border border-[var(--line)] bg-[#fffdf8] px-3.5 py-2 text-sm",
-                item.id === active && "border-[var(--ink)] bg-[var(--ink)] text-[var(--panel)]"
-              )}
-              href={item.href}
-              key={item.id}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
 
         {children}
       </main>

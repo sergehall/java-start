@@ -30,8 +30,9 @@ const stackSteps = [
 
 export default function StackPage() {
   return (
-    <AppShell active="stack" title="Stack lab" eyebrow="next-java://stack">
+    <AppShell active="stack" eyebrow="next-java://stack">
       <section className="stack-lab">
+        <h1 className="sr-only">Stack lab</h1>
         {stackSteps.map((step, index) => {
           const Icon = step.icon;
           return (

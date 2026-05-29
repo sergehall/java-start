@@ -4,11 +4,11 @@ import { AppShell } from "@/shared/ui/AppShell";
 
 export default function HomePage() {
   return (
-    <AppShell active="home" title="Java Start" eyebrow="next-java://home">
+    <AppShell active="home" eyebrow="next-java://home">
       <section className="hero-grid">
         <div className="hero-copy">
           <p className="eyebrow">Next.js + Java Spring Boot</p>
-          <h2>Fullstack learning without pretending the stack is magic.</h2>
+          <h1>Fullstack learning without pretending the stack is magic.</h1>
           <p className="lead">
             A learning dashboard where frontend and backend work as a pair: Next.js keeps the web interface fast, while
             Java owns security, data, and a clear API.

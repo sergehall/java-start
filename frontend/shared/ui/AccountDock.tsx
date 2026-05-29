@@ -43,7 +43,7 @@ export function AccountDock({ user }: AccountDockProps) {
         </span>
       </div>
       <button
-        className="grid size-11 flex-none cursor-pointer place-items-center rounded-full border border-[var(--line)] bg-[#fffdf8] text-[var(--ink)] transition-colors hover:border-[rgba(201,91,67,0.42)] hover:text-[var(--coral)]"
+        className="grid size-11 flex-none cursor-pointer place-items-center rounded-full border border-[var(--line)] bg-[#fffdf8] text-[var(--ink)] transition-colors hover:border-[var(--brand-ring)] hover:text-[var(--brand)]"
         onClick={handleLogout}
         type="button"
         aria-label="Log out"
