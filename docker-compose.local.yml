@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: ${COMPOSE_PROJECT_NAME:-java-start-local}-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-java_start_local}
+      POSTGRES_USER: ${POSTGRES_USER:-java_start}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-java_start_local_password}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-java_start} -d ${POSTGRES_DB:-java_start_local}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
+    name: ${POSTGRES_VOLUME:-java-start-local-postgres-data}

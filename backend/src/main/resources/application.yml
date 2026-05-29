@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: java-start-backend
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:java_start;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1}
+    username: ${SPRING_DATASOURCE_USERNAME:sa}
+    password: ${SPRING_DATASOURCE_PASSWORD:}
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:update}
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+
+server:
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+app:
+  security:
+    allowed-origins: ${APP_SECURITY_ALLOWED_ORIGINS:http://localhost:3000,http://127.0.0.1:3000}
+    jwt-secret: ${APP_SECURITY_JWT_SECRET:change-me-in-real-env-change-me-in-real-env-32}
+    token-ttl: ${APP_SECURITY_TOKEN_TTL:7d}
