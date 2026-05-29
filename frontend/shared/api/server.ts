@@ -1,15 +1,21 @@
 import { cookies } from "next/headers";
-import { SESSION_COOKIE } from "@/shared/api/session";
+import { SESSION_COOKIE_NAMES } from "@/shared/api/session";
 import type { ApiProblem, LearningStateOption, Profile, UserSummary } from "@/shared/api/contracts";
 
 const BACKEND_URL = process.env.BACKEND_URL ?? "http://localhost:8080";
 
-type BackendResult<T> =
-  | { ok: true; data: T; status: number }
-  | { ok: false; problem: ApiProblem; status: number };
+type BackendResult<T> = { ok: true; data: T; status: number } | { ok: false; problem: ApiProblem; status: number };
 
 export async function getSessionToken() {
-  return (await cookies()).get(SESSION_COOKIE)?.value;
+  const cookieStore = await cookies();
+  for (const cookieName of SESSION_COOKIE_NAMES) {
+    const token = cookieStore.get(cookieName)?.value;
+    if (token) {
+      return token;
+    }
+  }
+
+  return undefined;
 }
 
 export async function backendJson<T>(
@@ -25,11 +31,24 @@ export async function backendJson<T>(
     headers.set("Authorization", `Bearer ${init.token}`);
   }
 
-  const response = await fetch(`${BACKEND_URL}${path}`, {
-    ...init,
-    headers,
-    cache: "no-store"
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${BACKEND_URL}${path}`, {
+      ...init,
+      headers,
+      cache: "no-store"
+    });
+  } catch {
+    return {
+      ok: false,
+      problem: {
+        title: "Backend unavailable",
+        detail: "Spring Boot API is not reachable.",
+        status: 503
+      },
+      status: 503
+    };
+  }
 
   const payload = (await response.json().catch(() => ({}))) as unknown;
   if (!response.ok) {

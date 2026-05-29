@@ -1,20 +1,22 @@
 import Link from "next/link";
-import { Code2, Coffee, LockKeyhole, Sparkles } from "lucide-react";
+import { ArrowRight, Code2, Coffee, LockKeyhole, Sparkles } from "lucide-react";
+import { AppShell } from "@/shared/ui/AppShell";
 
 export default function HomePage() {
   return (
-    <main className="shell">
+    <AppShell active="home" title="Java Start" eyebrow="next-java://home">
       <section className="hero-grid">
         <div className="hero-copy">
           <p className="eyebrow">Next.js + Java Spring Boot</p>
-          <h1>Java Start</h1>
+          <h2>Fullstack learning without pretending the stack is magic.</h2>
           <p className="lead">
-            A learning dashboard where frontend and backend work as a pair: Next.js keeps the web interface fast,
-            while Java owns security, data, and a clear API.
+            A learning dashboard where frontend and backend work as a pair: Next.js keeps the web interface fast, while
+            Java owns security, data, and a clear API.
           </p>
           <div className="actions">
             <Link className="button button-primary" href="/register">
               Get started
+              <ArrowRight size={18} />
             </Link>
             <Link className="button button-ghost" href="/login">
               Sign in
@@ -44,6 +46,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-    </main>
+    </AppShell>
   );
 }

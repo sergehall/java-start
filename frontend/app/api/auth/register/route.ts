@@ -1,15 +1,20 @@
 import { NextResponse } from "next/server";
-import { registerSchema, type UserSummary } from "@/shared/api/contracts";
+import { registerSchema, type RegistrationResponse } from "@/shared/api/contracts";
 import { backendJson } from "@/shared/api/server";
-import { SESSION_COOKIE, cookieOptions } from "@/shared/api/session";
+import { assertSameOriginRequest } from "@/shared/api/request-security";
 
 export async function POST(request: Request) {
-  const parsed = registerSchema.safeParse(await request.json().catch(() => null));
-  if (!parsed.success) {
-    return NextResponse.json({ message: "Fill in name, email, and a stronger password." }, { status: 400 });
+  const sameOriginFailure = assertSameOriginRequest(request);
+  if (sameOriginFailure) {
+    return sameOriginFailure;
   }
 
-  const result = await backendJson<{ token: string; user: UserSummary }>("/api/v1/auth/register", {
+  const parsed = registerSchema.safeParse(await request.json().catch(() => null));
+  if (!parsed.success) {
+    return NextResponse.json({ message: "Fill in username, email, and a stronger password." }, { status: 400 });
+  }
+
+  const result = await backendJson<RegistrationResponse>("/api/v1/auth/register", {
     method: "POST",
     body: JSON.stringify(parsed.data)
   });
@@ -17,7 +22,5 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: result.problem.detail ?? "Registration failed." }, { status: result.status });
   }
 
-  const response = NextResponse.json({ user: result.data.user });
-  response.cookies.set(SESSION_COOKIE, result.data.token, cookieOptions());
-  return response;
+  return NextResponse.json(result.data);
 }

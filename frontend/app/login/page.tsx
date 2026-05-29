@@ -1,7 +1,14 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { AuthForm } from "@/features/auth/AuthForm";
+import { getCurrentUser } from "@/shared/api/server";
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const user = await getCurrentUser();
+  if (user) {
+    redirect("/dashboard");
+  }
+
   return (
     <main className="auth-screen">
       <section className="auth-panel">

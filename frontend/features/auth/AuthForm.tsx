@@ -13,7 +13,7 @@ type AuthFormProps = {
   mode: "login" | "register";
 };
 
-type AuthFormValues = LoginPayload & Partial<Pick<RegisterPayload, "displayName">>;
+type AuthFormValues = LoginPayload & Partial<Pick<RegisterPayload, "username">>;
 
 export function AuthForm({ mode }: AuthFormProps) {
   const router = useRouter();
@@ -28,21 +28,28 @@ export function AuthForm({ mode }: AuthFormProps) {
     defaultValues: {
       email: "",
       password: "",
-      displayName: ""
+      username: ""
     }
   });
 
   async function onSubmit(values: AuthFormValues) {
     setError(null);
-    const result =
-      mode === "login"
-        ? await login({ email: values.email, password: values.password })
-        : await register({
-            email: values.email,
-            password: values.password,
-            displayName: values.displayName ?? ""
-          });
 
+    if (mode === "register") {
+      const result = await register({
+        email: values.email,
+        password: values.password,
+        username: values.username ?? ""
+      });
+      if (!result.ok) {
+        setError(result.message);
+        return;
+      }
+      router.push(`/verify-email?${new URLSearchParams({ email: result.data.email, sent: "1" }).toString()}`);
+      return;
+    }
+
+    const result = await login({ email: values.email, password: values.password });
     if (!result.ok) {
       setError(result.message);
       return;
@@ -55,9 +62,9 @@ export function AuthForm({ mode }: AuthFormProps) {
     <form className="form-stack" onSubmit={handleSubmit(onSubmit)}>
       {mode === "register" ? (
         <label className="field">
-          <span>Name</span>
-          <input autoComplete="name" {...registerField("displayName")} />
-          {errors.displayName ? <small>{errors.displayName.message}</small> : null}
+          <span>Username</span>
+          <input autoComplete="username" {...registerField("username")} />
+          {errors.username ? <small>{errors.username.message}</small> : null}
         </label>
       ) : null}
 
@@ -69,7 +76,11 @@ export function AuthForm({ mode }: AuthFormProps) {
 
       <label className="field">
         <span>Password</span>
-        <input autoComplete={mode === "login" ? "current-password" : "new-password"} type="password" {...registerField("password")} />
+        <input
+          autoComplete={mode === "login" ? "current-password" : "new-password"}
+          type="password"
+          {...registerField("password")}
+        />
         {errors.password ? <small>{errors.password.message}</small> : null}
       </label>
 
@@ -77,7 +88,7 @@ export function AuthForm({ mode }: AuthFormProps) {
 
       <Button type="submit" disabled={isSubmitting}>
         {isSubmitting ? <Loader2 className="spin" size={18} /> : <ArrowRight size={18} />}
-        {mode === "login" ? "Sign in" : "Create dashboard"}
+        {mode === "login" ? "Sign in" : "Send verification email"}
       </Button>
     </form>
   );

@@ -1,9 +1,15 @@
-import type { Profile, ProfileUpdatePayload, RegisterPayload, UserSummary } from "@/shared/api/contracts";
-import type { LoginPayload } from "@/shared/api/contracts";
+import type {
+  EmailVerificationPayload,
+  LoginPayload,
+  Profile,
+  ProfileUpdatePayload,
+  RegisterPayload,
+  RegistrationResponse,
+  ResendVerificationPayload,
+  UserSummary
+} from "@/shared/api/contracts";
 
-type ClientResult<T> =
-  | { ok: true; data: T }
-  | { ok: false; message: string };
+type ClientResult<T> = { ok: true; data: T } | { ok: false; message: string };
 
 async function clientJson<T>(path: string, init?: RequestInit): Promise<ClientResult<T>> {
   const response = await fetch(path, {
@@ -28,7 +34,21 @@ export function login(payload: LoginPayload) {
 }
 
 export function register(payload: RegisterPayload) {
-  return clientJson<{ user: UserSummary }>("/api/auth/register", {
+  return clientJson<RegistrationResponse>("/api/auth/register", {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+}
+
+export function verifyEmail(payload: EmailVerificationPayload) {
+  return clientJson<{ user: UserSummary }>("/api/auth/verify-email", {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
+}
+
+export function resendVerification(payload: ResendVerificationPayload) {
+  return clientJson<RegistrationResponse>("/api/auth/resend-verification", {
     method: "POST",
     body: JSON.stringify(payload)
   });
