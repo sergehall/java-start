@@ -3,9 +3,9 @@ package dev.serge.javastart.application;
 import dev.serge.javastart.application.dto.AuthResponse;
 import dev.serge.javastart.application.dto.EmailResendRequest;
 import dev.serge.javastart.application.dto.EmailVerificationRequest;
-import dev.serge.javastart.application.dto.LoginRequest;
 import dev.serge.javastart.application.dto.RegisterRequest;
 import dev.serge.javastart.application.dto.RegistrationResponse;
+import dev.serge.javastart.application.dto.SignInRequest;
 import dev.serge.javastart.application.dto.UserSummary;
 import dev.serge.javastart.domain.model.UserAccount;
 import dev.serge.javastart.domain.model.UserProfile;
@@ -63,7 +63,7 @@ public class AuthService {
   }
 
   @Transactional
-  public AuthResponse login(LoginRequest request) {
+  public AuthResponse signIn(SignInRequest request) {
     UserAccount user =
         users
             .findByEmail(UserAccount.normalizeEmail(request.email()))

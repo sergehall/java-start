@@ -12,18 +12,23 @@ const SIGN_IN_VALUE = "sign-in";
 
 type AuthModalContextValue = {
   close: () => void;
+  error: AuthModalError;
   isOpen: boolean;
   open: () => void;
 };
 
 const AuthModalContext = createContext<AuthModalContextValue | null>(null);
 
+type AuthModalError = "github_oauth_failed" | null;
+
 type AuthModalProviderProps = {
   children: ReactNode;
+  initialError?: AuthModalError;
   initialOpen?: boolean;
 };
 
-export function AuthModalProvider({ children, initialOpen = false }: AuthModalProviderProps) {
+export function AuthModalProvider({ children, initialError = null, initialOpen = false }: AuthModalProviderProps) {
+  const [error, setError] = useState<AuthModalError>(initialError);
   const [isOpen, setIsOpen] = useState(initialOpen);
 
   const replaceAuthParam = useCallback((open: boolean) => {
@@ -32,16 +37,19 @@ export function AuthModalProvider({ children, initialOpen = false }: AuthModalPr
       url.searchParams.set(AUTH_PARAM, SIGN_IN_VALUE);
     } else {
       url.searchParams.delete(AUTH_PARAM);
+      url.searchParams.delete("error");
     }
     window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
   }, []);
 
   const open = useCallback(() => {
+    setError(null);
     setIsOpen(true);
     replaceAuthParam(true);
   }, [replaceAuthParam]);
 
   const close = useCallback(() => {
+    setError(null);
     setIsOpen(false);
     replaceAuthParam(false);
   }, [replaceAuthParam]);
@@ -58,7 +66,7 @@ export function AuthModalProvider({ children, initialOpen = false }: AuthModalPr
     };
   }, []);
 
-  const value = useMemo(() => ({ close, isOpen, open }), [close, isOpen, open]);
+  const value = useMemo(() => ({ close, error, isOpen, open }), [close, error, isOpen, open]);
 
   return <AuthModalContext.Provider value={value}>{children}</AuthModalContext.Provider>;
 }
@@ -79,7 +87,7 @@ export function OpenAuthModalButton({ className, children = "Sign in" }: OpenAut
 }
 
 export function AuthModalHost() {
-  const { close, isOpen } = useAuthModal();
+  const { close, error, isOpen } = useAuthModal();
 
   useEffect(() => {
     if (!isOpen) {
@@ -136,7 +144,13 @@ export function AuthModalHost() {
             </p>
           </div>
 
-          <AuthForm mode="login" />
+          {error === "github_oauth_failed" ? (
+            <p className="m-0 rounded-lg border border-[#f0c2b8] bg-[#fff0ec] px-4 py-3 text-sm font-bold text-[#a63b2b]">
+              GitHub sign in did not finish. Check the GitHub OAuth app settings and try again.
+            </p>
+          ) : null}
+
+          <AuthForm mode="sign-in" />
 
           <p className="text-muted m-0 leading-relaxed">
             Need an account?{" "}

@@ -2,7 +2,7 @@
 
 A small fullstack learning lab where Next.js and Java work together instead of living in separate worlds.
 
-The project is intentionally practical: registration, email verification, login, server-side session revocation, JWT authentication, a private dashboard, profile state, PostgreSQL, Docker, local scripts, tests, and a frontend that opens automatically when the dev server is ready.
+The project is intentionally practical: registration, email verification, sign in, server-side session revocation, JWT authentication, a private dashboard, profile state, PostgreSQL, Docker, local scripts, tests, and a frontend that opens automatically when the dev server is ready.
 
 ## What Is Inside
 
@@ -355,7 +355,7 @@ This project is built to make the fullstack flow visible:
 6. The frontend BFF calls the Spring Boot API through `BACKEND_URL`.
 7. Spring Security verifies JWT authentication and checks the session id against `"java-user-sessions"`.
 8. Logout revokes the backend session before clearing the browser cookie.
-9. Application services coordinate registration, verification, login, logout, profile updates, and dashboard data.
+9. Application services coordinate registration, verification, sign in, logout, profile updates, and dashboard data.
 10. JPA repositories persist users, sessions, profiles, and email verification tokens in PostgreSQL.
 
 The goal is not to hide complexity. The goal is to keep each layer small enough that you can learn it, change it, test it, and then make it stronger.

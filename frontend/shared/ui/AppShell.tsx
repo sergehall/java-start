@@ -31,6 +31,7 @@ type AppShellProps = Readonly<{
   active: string;
   children: React.ReactNode;
   eyebrow?: string;
+  initialAuthError?: "github_oauth_failed" | null;
   title?: string;
   user?: UserSummary | null;
   initialAuthOpen?: boolean;
@@ -40,6 +41,7 @@ export async function AppShell({
   active,
   children,
   eyebrow = "java-start://learn",
+  initialAuthError = null,
   initialAuthOpen = false,
   title,
   user
@@ -48,7 +50,7 @@ export async function AppShell({
   const navigation = currentUser ? privateNavigation : publicNavigation;
 
   return (
-    <AuthModalProvider initialOpen={!currentUser && initialAuthOpen}>
+    <AuthModalProvider initialError={initialAuthError} initialOpen={!currentUser && initialAuthOpen}>
       <div className="grid min-h-dvh grid-cols-1 bg-[var(--paper)] text-[var(--ink)] lg:grid-cols-[244px_minmax(0,1fr)]">
         <aside
           className="sticky top-0 z-20 flex items-center justify-between gap-4 border-b border-[var(--dark-line)] bg-[var(--dark)] px-4 py-3 text-[var(--dark-text)] lg:min-h-dvh lg:flex-col lg:items-stretch lg:justify-start lg:border-r lg:border-b-0 lg:p-[22px]"

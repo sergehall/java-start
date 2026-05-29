@@ -38,7 +38,7 @@ class AuthFlowTest {
   @Autowired private ObjectMapper objectMapper;
 
   @Test
-  void registersLogsInAndReadsProfile() throws Exception {
+  void registersSignsInAndReadsProfile() throws Exception {
     String email = "serge-%d@example.com".formatted(System.nanoTime());
     String registerBody =
         """
@@ -62,7 +62,7 @@ class AuthFlowTest {
 
     mockMvc
         .perform(
-            post("/api/v1/auth/login")
+            post("/api/v1/auth/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(
                     """

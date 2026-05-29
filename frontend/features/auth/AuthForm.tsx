@@ -5,21 +5,21 @@ import { ArrowRight, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { login, register } from "@/shared/api/client";
-import { loginSchema, registerSchema, type LoginPayload, type RegisterPayload } from "@/shared/api/contracts";
+import { register, signIn } from "@/shared/api/client";
+import { registerSchema, signInSchema, type RegisterPayload, type SignInPayload } from "@/shared/api/contracts";
 import { Button } from "@/shared/ui/Button";
 import { SocialAuthActions } from "@/features/auth/SocialAuthActions";
 
 type AuthFormProps = {
-  mode: "login" | "register";
+  mode: "register" | "sign-in";
 };
 
-type AuthFormValues = LoginPayload & Partial<Pick<RegisterPayload, "username">>;
+type AuthFormValues = SignInPayload & Partial<Pick<RegisterPayload, "username">>;
 
 export function AuthForm({ mode }: AuthFormProps) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const schema = mode === "login" ? loginSchema : registerSchema;
+  const schema = mode === "sign-in" ? signInSchema : registerSchema;
   const {
     register: registerField,
     handleSubmit,
@@ -50,7 +50,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       return;
     }
 
-    const result = await login({ email: values.email, password: values.password });
+    const result = await signIn({ email: values.email, password: values.password });
     if (!result.ok) {
       setError(result.message);
       return;
@@ -88,7 +88,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         <span className="text-muted text-sm font-extrabold">Password</span>
         <input
           className="border-line text-ink min-h-[46px] w-full rounded-lg border bg-[#fffdf8] px-3 py-2.5"
-          autoComplete={mode === "login" ? "current-password" : "new-password"}
+          autoComplete={mode === "sign-in" ? "current-password" : "new-password"}
           type="password"
           {...registerField("password")}
         />
@@ -97,11 +97,11 @@ export function AuthForm({ mode }: AuthFormProps) {
 
       {error ? <p className="m-0 text-[#a63b2b]">{error}</p> : null}
 
-      {mode === "login" ? <SocialAuthActions /> : null}
+      {mode === "sign-in" ? <SocialAuthActions /> : null}
 
       <Button type="submit" disabled={isSubmitting}>
         {isSubmitting ? <Loader2 className="animate-spin" size={18} /> : <ArrowRight size={18} />}
-        {mode === "login" ? "Sign in" : "Send verification email"}
+        {mode === "sign-in" ? "Sign in" : "Send verification email"}
       </Button>
     </form>
   );

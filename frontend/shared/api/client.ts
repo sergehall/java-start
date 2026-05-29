@@ -1,11 +1,11 @@
 import type {
   EmailVerificationPayload,
-  LoginPayload,
   Profile,
   ProfileUpdatePayload,
   RegisterPayload,
   RegistrationResponse,
   ResendVerificationPayload,
+  SignInPayload,
   UserSummary
 } from "@/shared/api/contracts";
 
@@ -26,8 +26,8 @@ async function clientJson<T>(path: string, init?: RequestInit): Promise<ClientRe
   return { ok: true, data: payload as T };
 }
 
-export function login(payload: LoginPayload) {
-  return clientJson<{ user: UserSummary }>("/api/auth/login", {
+export function signIn(payload: SignInPayload) {
+  return clientJson<{ user: UserSummary }>("/api/auth/sign-in", {
     method: "POST",
     body: JSON.stringify(payload)
   });

@@ -1,11 +1,11 @@
 import { z } from "zod";
 
-export const loginSchema = z.object({
+export const signInSchema = z.object({
   email: z.string().email("Enter a valid email."),
   password: z.string().min(8, "Password must be at least 8 characters.")
 });
 
-export const registerSchema = loginSchema.extend({
+export const registerSchema = signInSchema.extend({
   username: z.string().min(2, "Username must be at least 2 characters.").max(80)
 });
 
@@ -26,7 +26,7 @@ export const profileUpdateSchema = z.object({
   nextStep: z.string().min(1).max(240)
 });
 
-export type LoginPayload = z.infer<typeof loginSchema>;
+export type SignInPayload = z.infer<typeof signInSchema>;
 export type RegisterPayload = z.infer<typeof registerSchema>;
 export type EmailVerificationPayload = z.infer<typeof emailVerificationSchema>;
 export type ResendVerificationPayload = z.infer<typeof resendVerificationSchema>;

@@ -7,7 +7,7 @@ export default async function DashboardPage() {
   const [user, profile, options] = await Promise.all([getCurrentUser(), getProfile(), getLearningStates()]);
 
   if (!user || !profile) {
-    redirect("/login");
+    redirect("/?auth=sign-in&next=/dashboard");
   }
 
   return (

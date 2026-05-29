@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 type HomePageProps = {
   searchParams?: Promise<{
     auth?: string;
+    error?: string;
   }>;
 };
 
@@ -22,7 +23,12 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const params = await searchParams;
 
   return (
-    <AppShell active="home" eyebrow="next-java://home" initialAuthOpen={params?.auth === "sign-in"}>
+    <AppShell
+      active="home"
+      eyebrow="next-java://home"
+      initialAuthError={params?.error === "github_oauth_failed" ? "github_oauth_failed" : null}
+      initialAuthOpen={params?.auth === "sign-in"}
+    >
       <section className="mx-auto grid w-full max-w-[1180px] grid-cols-[minmax(0,0.9fr)_minmax(320px,1.1fr)] items-center gap-10 max-lg:grid-cols-1">
         <div>
           <p className="text-brand mb-3 text-xs font-extrabold uppercase">Next.js + Java Spring Boot</p>

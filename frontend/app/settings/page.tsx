@@ -7,7 +7,7 @@ export default async function SettingsPage() {
   const user = await getCurrentUser();
 
   if (!user) {
-    redirect("/login");
+    redirect("/?auth=sign-in&next=/settings");
   }
 
   return (

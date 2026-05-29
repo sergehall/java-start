@@ -6,9 +6,9 @@ import dev.serge.javastart.application.dto.AuthResponse;
 import dev.serge.javastart.application.dto.EmailResendRequest;
 import dev.serge.javastart.application.dto.EmailVerificationRequest;
 import dev.serge.javastart.application.dto.GitHubOAuthCompleteRequest;
-import dev.serge.javastart.application.dto.LoginRequest;
 import dev.serge.javastart.application.dto.RegisterRequest;
 import dev.serge.javastart.application.dto.RegistrationResponse;
+import dev.serge.javastart.application.dto.SignInRequest;
 import dev.serge.javastart.application.dto.UserSummary;
 import dev.serge.javastart.infrastructure.security.AppPrincipal;
 import jakarta.validation.Valid;
@@ -37,9 +37,9 @@ public class AuthController {
     return authService.register(request);
   }
 
-  @PostMapping("/login")
-  AuthResponse login(@Valid @RequestBody LoginRequest request) {
-    return authService.login(request);
+  @PostMapping("/sign-in")
+  AuthResponse signIn(@Valid @RequestBody SignInRequest request) {
+    return authService.signIn(request);
   }
 
   @PostMapping("/logout")

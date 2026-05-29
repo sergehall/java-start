@@ -15,7 +15,7 @@ export async function GET(request: Request) {
   const error = url.searchParams.get("error");
 
   if (error || !code || !state) {
-    return redirectToLogin(request.url, "github_oauth_failed");
+    return redirectToAuthModal(request.url, "github_oauth_failed");
   }
 
   const result = await backendJson<OAuthResponse>("/api/v1/auth/oauth/github/complete", {
@@ -24,7 +24,7 @@ export async function GET(request: Request) {
   });
 
   if (!result.ok) {
-    return redirectToLogin(request.url, "github_oauth_failed");
+    return redirectToAuthModal(request.url, "github_oauth_failed");
   }
 
   const response = NextResponse.redirect(new URL("/dashboard", request.url));
@@ -32,8 +32,9 @@ export async function GET(request: Request) {
   return response;
 }
 
-function redirectToLogin(requestUrl: string, reason: string) {
-  const loginUrl = new URL("/login", requestUrl);
-  loginUrl.searchParams.set("error", reason);
-  return NextResponse.redirect(loginUrl);
+function redirectToAuthModal(requestUrl: string, reason: string) {
+  const authUrl = new URL("/", requestUrl);
+  authUrl.searchParams.set("auth", "sign-in");
+  authUrl.searchParams.set("error", reason);
+  return NextResponse.redirect(authUrl);
 }
