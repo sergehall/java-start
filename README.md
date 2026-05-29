@@ -12,7 +12,7 @@ The project is intentionally practical: registration, email verification, login,
 - `scripts` - one-command local development, infrastructure, database checks, and stop helpers.
 - `src/Main.java` - the original IntelliJ starter file, kept as the first Java step.
 
-Database tables use the learning-project prefix `java-`, for example `"java-user-accounts"` and `"java-user-sessions"`.
+Database tables use the learning-project prefix `java-`, for example `"java-user-accounts"` and `"java-user-sessions"`. The account identity field is `username` across the frontend contract, backend DTOs, and database column names.
 
 ## Tech Stack
 
@@ -187,6 +187,27 @@ pnpm infra:reset
 
 Docker does not rebuild the PostgreSQL image on every run. The first run pulls `postgres:17-alpine`; later runs reuse the same image, container, and named volume unless you reset them.
 
+Current local tables:
+
+```text
+public."java-user-accounts"
+public."java-user-profiles"
+public."java-user-sessions"
+public."java-email-verification-tokens"
+```
+
+The main account table stores `username`, `email`, password hash, role, email verification state, and timestamps. If you rename entity columns while learning, update the local database with a small SQL migration or reset the local volume with `pnpm infra:reset`.
+
+pgAdmin 4 connection values:
+
+```text
+Host: 127.0.0.1
+Port: 5432
+Database: java_start_local
+Username: java_start
+Password: java_start_local_password
+```
+
 ## Local Production-Like Run
 
 Start the production-like PostgreSQL profile:
@@ -287,14 +308,15 @@ pnpm build
 This project is built to make the fullstack flow visible:
 
 1. The browser talks to Next.js pages and route handlers.
-2. Registration creates a pending account and queues an email verification link.
-3. The email link opens `/verify-email`, which confirms the token through the backend.
-4. Next.js keeps the verified browser session in an httpOnly cookie.
-5. The frontend BFF calls the Spring Boot API through `BACKEND_URL`.
-6. Spring Security verifies JWT authentication and checks the session id against `user_sessions`.
-7. Logout revokes the backend session before clearing the browser cookie.
-8. Application services coordinate registration, verification, login, logout, profile updates, and dashboard data.
-9. JPA repositories persist users, sessions, profiles, and email verification tokens in PostgreSQL.
+2. Registration sends `username`, `email`, and `password` to the Next.js BFF.
+3. The backend creates a pending account and queues an email verification link.
+4. The email link opens `/verify-email`, which confirms the token through the backend.
+5. Next.js keeps the verified browser session in an httpOnly cookie.
+6. The frontend BFF calls the Spring Boot API through `BACKEND_URL`.
+7. Spring Security verifies JWT authentication and checks the session id against `"java-user-sessions"`.
+8. Logout revokes the backend session before clearing the browser cookie.
+9. Application services coordinate registration, verification, login, logout, profile updates, and dashboard data.
+10. JPA repositories persist users, sessions, profiles, and email verification tokens in PostgreSQL.
 
 The goal is not to hide complexity. The goal is to keep each layer small enough that you can learn it, change it, test it, and then make it stronger.
 
@@ -316,6 +338,16 @@ MAIL_PROVIDER=log
 MAIL_FROM=no-reply@java-start.local
 MAIL_SUPPORT=support@java-start.local
 AUTH_EMAIL_VERIFICATION_TTL_SECONDS=900
+```
+
+Registration and authenticated user responses use `username`:
+
+```json
+{
+  "username": "serge",
+  "email": "serge@example.com",
+  "password": "strong-password"
+}
 ```
 
 For real email delivery, switch `MAIL_PROVIDER` to `smtp` and provide the SMTP variables:
@@ -348,8 +380,10 @@ pnpm db:check
 If development processes keep running after closing a terminal:
 
 ```bash
-pnpm dev:stop
+pnpm stop
 ```
+
+`pnpm stop` and `pnpm dev:stop` both stop Java and Next.js processes for this project. `pnpm dev:restart` stops them first, then starts a fresh local dev run.
 
 If you want a clean local database:
 
