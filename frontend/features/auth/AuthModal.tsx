@@ -1,16 +1,67 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { X } from "lucide-react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
-import { useCallback, useEffect, useState } from "react";
 import { AuthForm } from "@/features/auth/AuthForm";
 import { cn } from "@/shared/lib/cn";
 
 const AUTH_PARAM = "auth";
 const SIGN_IN_VALUE = "sign-in";
-const AUTH_OPEN_EVENT = "java-start:auth-open";
+
+type AuthModalContextValue = {
+  close: () => void;
+  isOpen: boolean;
+  open: () => void;
+};
+
+const AuthModalContext = createContext<AuthModalContextValue | null>(null);
+
+type AuthModalProviderProps = {
+  children: ReactNode;
+  initialOpen?: boolean;
+};
+
+export function AuthModalProvider({ children, initialOpen = false }: AuthModalProviderProps) {
+  const [isOpen, setIsOpen] = useState(initialOpen);
+
+  const replaceAuthParam = useCallback((open: boolean) => {
+    const url = new URL(window.location.href);
+    if (open) {
+      url.searchParams.set(AUTH_PARAM, SIGN_IN_VALUE);
+    } else {
+      url.searchParams.delete(AUTH_PARAM);
+    }
+    window.history.replaceState(window.history.state, "", `${url.pathname}${url.search}${url.hash}`);
+  }, []);
+
+  const open = useCallback(() => {
+    setIsOpen(true);
+    replaceAuthParam(true);
+  }, [replaceAuthParam]);
+
+  const close = useCallback(() => {
+    setIsOpen(false);
+    replaceAuthParam(false);
+  }, [replaceAuthParam]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setIsOpen(new URL(window.location.href).searchParams.get(AUTH_PARAM) === SIGN_IN_VALUE);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+
+  const value = useMemo(() => ({ close, isOpen, open }), [close, isOpen, open]);
+
+  return <AuthModalContext.Provider value={value}>{children}</AuthModalContext.Provider>;
+}
 
 type OpenAuthModalButtonProps = {
   className?: string;
@@ -18,47 +69,17 @@ type OpenAuthModalButtonProps = {
 };
 
 export function OpenAuthModalButton({ className, children = "Sign in" }: OpenAuthModalButtonProps) {
-  const pathname = usePathname();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
-  function openModal() {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set(AUTH_PARAM, SIGN_IN_VALUE);
-    window.dispatchEvent(new Event(AUTH_OPEN_EVENT));
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-  }
+  const { open } = useAuthModal();
 
   return (
-    <button aria-haspopup="dialog" className={className} onClick={openModal} type="button">
+    <button aria-haspopup="dialog" className={className} onClick={open} type="button">
       {children}
     </button>
   );
 }
 
 export function AuthModalHost() {
-  const pathname = usePathname();
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [isLocallyOpen, setIsLocallyOpen] = useState(false);
-  const isOpen = searchParams.get(AUTH_PARAM) === SIGN_IN_VALUE || isLocallyOpen;
-
-  const closeModal = useCallback(() => {
-    setIsLocallyOpen(false);
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete(AUTH_PARAM);
-    const query = params.toString();
-    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
-  }, [pathname, router, searchParams]);
-
-  useEffect(() => {
-    const openModal = () => setIsLocallyOpen(true);
-    window.addEventListener(AUTH_OPEN_EVENT, openModal);
-
-    return () => {
-      window.removeEventListener(AUTH_OPEN_EVENT, openModal);
-    };
-  }, []);
+  const { close, isOpen } = useAuthModal();
 
   useEffect(() => {
     if (!isOpen) {
@@ -68,7 +89,7 @@ export function AuthModalHost() {
     const previousOverflow = document.body.style.overflow;
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        closeModal();
+        close();
       }
     };
 
@@ -79,7 +100,7 @@ export function AuthModalHost() {
       document.body.style.overflow = previousOverflow;
       window.removeEventListener("keydown", handleEscape);
     };
-  }, [closeModal, isOpen]);
+  }, [close, isOpen]);
 
   if (!isOpen) {
     return null;
@@ -90,14 +111,14 @@ export function AuthModalHost() {
       <button
         aria-label="Close authentication dialog"
         className="absolute inset-0 cursor-pointer border-0 bg-[rgba(10,14,12,0.58)]"
-        onClick={closeModal}
+        onClick={close}
         type="button"
       />
       <section className="border-line relative mx-auto mt-7 grid max-h-[calc(100dvh-56px)] w-[min(calc(100%_-_24px),520px)] gap-5 overflow-y-auto rounded-lg border bg-[rgba(255,250,241,0.98)] p-7 shadow-[0_34px_90px_rgba(29,27,23,0.28)] sm:mt-12 sm:p-8">
         <button
           aria-label="Close"
           className="border-line text-ink absolute top-4 right-4 grid size-10 cursor-pointer place-items-center rounded-full border bg-[#fffdf8] transition hover:-translate-y-px hover:border-[var(--brand-ring)] hover:text-[var(--brand)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--brand-ring)]"
-          onClick={closeModal}
+          onClick={close}
           type="button"
         >
           <X size={20} />
@@ -134,4 +155,12 @@ export function AuthModalHost() {
       </section>
     </div>
   );
+}
+
+function useAuthModal() {
+  const context = useContext(AuthModalContext);
+  if (!context) {
+    throw new Error("Auth modal components must be rendered inside AuthModalProvider.");
+  }
+  return context;
 }
