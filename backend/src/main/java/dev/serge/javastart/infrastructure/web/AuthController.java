@@ -6,9 +6,9 @@ import dev.serge.javastart.application.dto.AuthResponse;
 import dev.serge.javastart.application.dto.EmailResendRequest;
 import dev.serge.javastart.application.dto.EmailVerificationRequest;
 import dev.serge.javastart.application.dto.GitHubOAuthCompleteRequest;
-import dev.serge.javastart.application.dto.RegisterRequest;
 import dev.serge.javastart.application.dto.RegistrationResponse;
 import dev.serge.javastart.application.dto.SignInRequest;
+import dev.serge.javastart.application.dto.SignUpRequest;
 import dev.serge.javastart.application.dto.UserSummary;
 import dev.serge.javastart.infrastructure.security.AppPrincipal;
 import jakarta.validation.Valid;
@@ -32,9 +32,9 @@ public class AuthController {
     this.gitHubOAuthService = gitHubOAuthService;
   }
 
-  @PostMapping("/register")
-  RegistrationResponse register(@Valid @RequestBody RegisterRequest request) {
-    return authService.register(request);
+  @PostMapping("/sign-up")
+  RegistrationResponse signUp(@Valid @RequestBody SignUpRequest request) {
+    return authService.signUp(request);
   }
 
   @PostMapping("/sign-in")

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getCurrentUser } from "@/shared/api/server";
 import type { UserSummary } from "@/shared/api/contracts";
 import { AuthModalHost, AuthModalProvider, OpenAuthModalButton } from "@/features/auth/AuthModal";
+import type { AuthMode } from "@/features/auth/AuthModal";
 import { cn } from "@/shared/lib/cn";
 import { AccountDock } from "@/shared/ui/AccountDock";
 import { MobileNavDots } from "@/shared/ui/MobileNavDots";
@@ -32,6 +33,7 @@ type AppShellProps = Readonly<{
   children: React.ReactNode;
   eyebrow?: string;
   initialAuthError?: "github_oauth_failed" | null;
+  initialAuthMode?: AuthMode;
   title?: string;
   user?: UserSummary | null;
   initialAuthOpen?: boolean;
@@ -42,6 +44,7 @@ export async function AppShell({
   children,
   eyebrow = "java-start://learn",
   initialAuthError = null,
+  initialAuthMode = "sign-in",
   initialAuthOpen = false,
   title,
   user
@@ -50,7 +53,11 @@ export async function AppShell({
   const navigation = currentUser ? privateNavigation : publicNavigation;
 
   return (
-    <AuthModalProvider initialError={initialAuthError} initialOpen={!currentUser && initialAuthOpen}>
+    <AuthModalProvider
+      initialError={initialAuthError}
+      initialMode={initialAuthMode}
+      initialOpen={!currentUser && initialAuthOpen}
+    >
       <div className="grid min-h-dvh grid-cols-1 bg-[var(--paper)] text-[var(--ink)] lg:grid-cols-[244px_minmax(0,1fr)]">
         <aside
           className="sticky top-0 z-20 flex items-center justify-between gap-4 border-b border-[var(--dark-line)] bg-[var(--dark)] px-4 py-3 text-[var(--dark-text)] lg:min-h-dvh lg:flex-col lg:items-stretch lg:justify-start lg:border-r lg:border-b-0 lg:p-[22px]"

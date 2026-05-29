@@ -5,21 +5,21 @@ import { ArrowRight, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { register, signIn } from "@/shared/api/client";
-import { registerSchema, signInSchema, type RegisterPayload, type SignInPayload } from "@/shared/api/contracts";
+import { signIn, signUp } from "@/shared/api/client";
+import { signInSchema, signUpSchema, type SignInPayload, type SignUpPayload } from "@/shared/api/contracts";
 import { Button } from "@/shared/ui/Button";
 import { SocialAuthActions } from "@/features/auth/SocialAuthActions";
 
 type AuthFormProps = {
-  mode: "register" | "sign-in";
+  mode: "sign-in" | "sign-up";
 };
 
-type AuthFormValues = SignInPayload & Partial<Pick<RegisterPayload, "username">>;
+type AuthFormValues = SignInPayload & Partial<Pick<SignUpPayload, "username">>;
 
 export function AuthForm({ mode }: AuthFormProps) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-  const schema = mode === "sign-in" ? signInSchema : registerSchema;
+  const schema = mode === "sign-in" ? signInSchema : signUpSchema;
   const {
     register: registerField,
     handleSubmit,
@@ -36,8 +36,8 @@ export function AuthForm({ mode }: AuthFormProps) {
   async function onSubmit(values: AuthFormValues) {
     setError(null);
 
-    if (mode === "register") {
-      const result = await register({
+    if (mode === "sign-up") {
+      const result = await signUp({
         email: values.email,
         password: values.password,
         username: values.username ?? ""
@@ -61,7 +61,7 @@ export function AuthForm({ mode }: AuthFormProps) {
 
   return (
     <form className="grid gap-4" onSubmit={handleSubmit(onSubmit)}>
-      {mode === "register" ? (
+      {mode === "sign-up" ? (
         <label className="grid gap-2">
           <span className="text-muted text-sm font-extrabold">Username</span>
           <input

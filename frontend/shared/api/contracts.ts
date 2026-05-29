@@ -5,7 +5,7 @@ export const signInSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters.")
 });
 
-export const registerSchema = signInSchema.extend({
+export const signUpSchema = signInSchema.extend({
   username: z.string().min(2, "Username must be at least 2 characters.").max(80)
 });
 
@@ -27,7 +27,7 @@ export const profileUpdateSchema = z.object({
 });
 
 export type SignInPayload = z.infer<typeof signInSchema>;
-export type RegisterPayload = z.infer<typeof registerSchema>;
+export type SignUpPayload = z.infer<typeof signUpSchema>;
 export type EmailVerificationPayload = z.infer<typeof emailVerificationSchema>;
 export type ResendVerificationPayload = z.infer<typeof resendVerificationSchema>;
 export type ProfileUpdatePayload = z.infer<typeof profileUpdateSchema>;

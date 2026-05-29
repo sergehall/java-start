@@ -3,9 +3,9 @@ package dev.serge.javastart.application;
 import dev.serge.javastart.application.dto.AuthResponse;
 import dev.serge.javastart.application.dto.EmailResendRequest;
 import dev.serge.javastart.application.dto.EmailVerificationRequest;
-import dev.serge.javastart.application.dto.RegisterRequest;
 import dev.serge.javastart.application.dto.RegistrationResponse;
 import dev.serge.javastart.application.dto.SignInRequest;
+import dev.serge.javastart.application.dto.SignUpRequest;
 import dev.serge.javastart.application.dto.UserSummary;
 import dev.serge.javastart.domain.model.UserAccount;
 import dev.serge.javastart.domain.model.UserProfile;
@@ -44,7 +44,7 @@ public class AuthService {
   }
 
   @Transactional
-  public RegistrationResponse register(RegisterRequest request) {
+  public RegistrationResponse signUp(SignUpRequest request) {
     String email = UserAccount.normalizeEmail(request.email());
     if (users.existsByEmail(email)) {
       throw new EmailAlreadyUsedException();

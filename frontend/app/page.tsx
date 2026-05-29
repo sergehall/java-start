@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { ArrowRight, Code2, Coffee, LockKeyhole, Sparkles } from "lucide-react";
 import { OpenAuthModalButton } from "@/features/auth/AuthModal";
 import { AppShell } from "@/shared/ui/AppShell";
@@ -21,13 +20,16 @@ type HomePageProps = {
 
 export default async function HomePage({ searchParams }: HomePageProps) {
   const params = await searchParams;
+  const authMode = params?.auth === "sign-up" ? "sign-up" : "sign-in";
+  const shouldOpenAuth = params?.auth === "sign-in" || params?.auth === "sign-up";
 
   return (
     <AppShell
       active="home"
       eyebrow="next-java://home"
       initialAuthError={params?.error === "github_oauth_failed" ? "github_oauth_failed" : null}
-      initialAuthOpen={params?.auth === "sign-in"}
+      initialAuthMode={authMode}
+      initialAuthOpen={shouldOpenAuth}
     >
       <section className="mx-auto grid w-full max-w-[1180px] grid-cols-[minmax(0,0.9fr)_minmax(320px,1.1fr)] items-center gap-10 max-lg:grid-cols-1">
         <div>
@@ -40,13 +42,13 @@ export default async function HomePage({ searchParams }: HomePageProps) {
             Java owns security, data, and a clear API.
           </p>
           <div className="mt-7 flex flex-wrap items-center gap-3">
-            <Link
+            <OpenAuthModalButton
               className="bg-ink text-panel inline-flex min-h-[46px] items-center justify-center gap-2.5 rounded-lg border border-transparent px-[18px] font-extrabold transition duration-150 hover:-translate-y-px"
-              href="/register"
+              mode="sign-up"
             >
               Get started
               <ArrowRight size={18} />
-            </Link>
+            </OpenAuthModalButton>
             <OpenAuthModalButton className="border-line text-ink inline-flex min-h-[46px] items-center justify-center gap-2.5 rounded-lg border bg-transparent px-[18px] font-extrabold transition duration-150 hover:-translate-y-px" />
           </div>
         </div>

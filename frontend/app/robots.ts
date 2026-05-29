@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         allow: ["/", "/stack", "/contact", "/favicon.ico", "/logo-rectangle.png"],
-        disallow: ["/api/", "/dashboard", "/profile", "/settings", "/states", "/register", "/verify-email"],
+        disallow: ["/api/", "/dashboard", "/profile", "/settings", "/states", "/verify-email"],
         userAgent: "*"
       }
     ],

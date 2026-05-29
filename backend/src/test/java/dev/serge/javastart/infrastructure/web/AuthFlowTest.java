@@ -52,7 +52,7 @@ class AuthFlowTest {
 
     mockMvc
         .perform(
-            post("/api/v1/auth/register")
+            post("/api/v1/auth/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(registerBody))
         .andExpect(status().isOk())

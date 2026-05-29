@@ -2,10 +2,10 @@ import type {
   EmailVerificationPayload,
   Profile,
   ProfileUpdatePayload,
-  RegisterPayload,
   RegistrationResponse,
   ResendVerificationPayload,
   SignInPayload,
+  SignUpPayload,
   UserSummary
 } from "@/shared/api/contracts";
 
@@ -33,8 +33,8 @@ export function signIn(payload: SignInPayload) {
   });
 }
 
-export function register(payload: RegisterPayload) {
-  return clientJson<RegistrationResponse>("/api/auth/register", {
+export function signUp(payload: SignUpPayload) {
+  return clientJson<RegistrationResponse>("/api/auth/sign-up", {
     method: "POST",
     body: JSON.stringify(payload)
   });
