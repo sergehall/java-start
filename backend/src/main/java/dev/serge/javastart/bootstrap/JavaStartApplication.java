@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan("dev.serge.javastart.domain.model")
 @EnableJpaRepositories("dev.serge.javastart.infrastructure.persistence")
 public class JavaStartApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(JavaStartApplication.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(JavaStartApplication.class, args);
+  }
 }

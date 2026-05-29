@@ -34,3 +34,17 @@ app:
     allowed-origins: ${APP_SECURITY_ALLOWED_ORIGINS:http://localhost:3000,http://127.0.0.1:3000}
     jwt-secret: ${APP_SECURITY_JWT_SECRET:change-me-in-real-env-change-me-in-real-env-32}
     token-ttl: ${APP_SECURITY_TOKEN_TTL:7d}
+  mail:
+    provider: ${MAIL_PROVIDER:log}
+    from: ${MAIL_FROM:${SMTP_FROM_EMAIL:no-reply@java-start.local}}
+    support: ${MAIL_SUPPORT:support@java-start.local}
+    frontend-url: ${FRONTEND_URL:http://localhost:3000}
+    verification-ttl-seconds: ${AUTH_EMAIL_VERIFICATION_TTL_SECONDS:900}
+    smtp:
+      host: ${SMTP_HOST:}
+      port: ${SMTP_PORT:587}
+      secure: ${SMTP_SECURE:false}
+      require-tls: ${SMTP_REQUIRE_TLS:true}
+      username: ${SMTP_USERNAME:}
+      password: ${SMTP_PASSWORD:}
+      app-password: ${SMTP_APP_PASSWORD:}

@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserProfileRepository extends JpaRepository<UserProfile, UUID> {
-    @EntityGraph(attributePaths = "user")
-    Optional<UserProfile> findByUserId(UUID userId);
+  @EntityGraph(attributePaths = "user")
+  Optional<UserProfile> findByUserId(UUID userId);
 }

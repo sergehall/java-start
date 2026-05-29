@@ -9,23 +9,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProfileService {
-    private final UserProfileRepository profiles;
+  private final UserProfileRepository profiles;
 
-    public ProfileService(UserProfileRepository profiles) {
-        this.profiles = profiles;
-    }
+  public ProfileService(UserProfileRepository profiles) {
+    this.profiles = profiles;
+  }
 
-    @Transactional(readOnly = true)
-    public ProfileResponse getProfile(UUID userId) {
-        return profiles.findByUserId(userId)
-                .map(ProfileResponse::from)
-                .orElseThrow(ProfileNotFoundException::new);
-    }
+  @Transactional(readOnly = true)
+  public ProfileResponse getProfile(UUID userId) {
+    return profiles
+        .findByUserId(userId)
+        .map(ProfileResponse::from)
+        .orElseThrow(ProfileNotFoundException::new);
+  }
 
-    @Transactional
-    public ProfileResponse updateProfile(UUID userId, ProfileUpdateRequest request) {
-        var profile = profiles.findByUserId(userId).orElseThrow(ProfileNotFoundException::new);
-        profile.update(request.learningState(), request.energyLevel(), request.learningGoal(), request.nextStep());
-        return ProfileResponse.from(profile);
-    }
+  @Transactional
+  public ProfileResponse updateProfile(UUID userId, ProfileUpdateRequest request) {
+    var profile = profiles.findByUserId(userId).orElseThrow(ProfileNotFoundException::new);
+    profile.update(
+        request.learningState(), request.energyLevel(), request.learningGoal(), request.nextStep());
+    return ProfileResponse.from(profile);
+  }
 }

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/options")
 public class OptionsController {
-    @GetMapping("/learning-states")
-    List<LearningStateOption> learningStates() {
-        return Arrays.stream(LearningState.values()).map(LearningStateOption::from).toList();
-    }
+  @GetMapping("/learning-states")
+  List<LearningStateOption> learningStates() {
+    return Arrays.stream(LearningState.values()).map(LearningStateOption::from).toList();
+  }
 }

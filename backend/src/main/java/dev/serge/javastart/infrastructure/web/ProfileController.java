@@ -15,22 +15,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/profile")
 public class ProfileController {
-    private final ProfileService profileService;
+  private final ProfileService profileService;
 
-    public ProfileController(ProfileService profileService) {
-        this.profileService = profileService;
-    }
+  public ProfileController(ProfileService profileService) {
+    this.profileService = profileService;
+  }
 
-    @GetMapping
-    ProfileResponse getProfile(@AuthenticationPrincipal AppPrincipal principal) {
-        return profileService.getProfile(principal.userId());
-    }
+  @GetMapping
+  ProfileResponse getProfile(@AuthenticationPrincipal AppPrincipal principal) {
+    return profileService.getProfile(principal.userId());
+  }
 
-    @PutMapping
-    ProfileResponse updateProfile(
-            @AuthenticationPrincipal AppPrincipal principal,
-            @Valid @RequestBody ProfileUpdateRequest request
-    ) {
-        return profileService.updateProfile(principal.userId(), request);
-    }
+  @PutMapping
+  ProfileResponse updateProfile(
+      @AuthenticationPrincipal AppPrincipal principal,
+      @Valid @RequestBody ProfileUpdateRequest request) {
+    return profileService.updateProfile(principal.userId(), request);
+  }
 }

@@ -8,19 +8,19 @@ import dev.serge.javastart.domain.model.UserProfile;
 import org.junit.jupiter.api.Test;
 
 class ProfileCompletionTest {
-    @Test
-    void calculatesCompleteProfileScore() {
-        UserAccount user = UserAccount.register("serge@example.com", "Serge", "hash");
-        UserProfile profile = UserProfile.forUser(user);
+  @Test
+  void calculatesCompleteProfileScore() {
+    UserAccount user = UserAccount.register("serge@example.com", "Serge", "hash");
+    UserProfile profile = UserProfile.forUser(user);
 
-        assertThat(ProfileCompletion.calculate(user, profile)).isEqualTo(100);
-    }
+    assertThat(ProfileCompletion.calculate(user, profile)).isEqualTo(100);
+  }
 
-    @Test
-    void capsScoreAtOneHundred() {
-        UserAccount user = UserAccount.register("serge@example.com", "Serge", "hash");
-        UserProfile profile = UserProfile.forUser(user);
+  @Test
+  void capsScoreAtOneHundred() {
+    UserAccount user = UserAccount.register("serge@example.com", "Serge", "hash");
+    UserProfile profile = UserProfile.forUser(user);
 
-        assertThat(ProfileCompletion.calculate(user, profile)).isLessThanOrEqualTo(100);
-    }
+    assertThat(ProfileCompletion.calculate(user, profile)).isLessThanOrEqualTo(100);
+  }
 }
