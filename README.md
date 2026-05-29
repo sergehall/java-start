@@ -226,6 +226,7 @@ Store GitHub OAuth server secrets in the root backend env file:
 # .env.local
 GITHUB_OAUTH_CLIENT_ID=replace-with-client-id
 GITHUB_OAUTH_CLIENT_SECRET=replace-with-client-secret
+GITHUB_OAUTH_REDIRECT_URI=http://localhost:3000/auth/oauth/github/callback
 ```
 
 Store the browser-visible OAuth start URL in the frontend env file:
@@ -382,6 +383,7 @@ MAIL_SUPPORT=support@java-start.local
 AUTH_EMAIL_VERIFICATION_TTL_SECONDS=900
 GITHUB_OAUTH_CLIENT_ID=
 GITHUB_OAUTH_CLIENT_SECRET=
+GITHUB_OAUTH_REDIRECT_URI=http://localhost:3000/auth/oauth/github/callback
 ```
 
 Important frontend variables:

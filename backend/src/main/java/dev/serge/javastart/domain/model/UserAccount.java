@@ -28,6 +28,9 @@ public class UserAccount {
   @Column(nullable = false)
   private String passwordHash;
 
+  @Column(name = "github_id", unique = true, length = 64)
+  private String githubId;
+
   @Enumerated(EnumType.STRING)
   @Column(nullable = false, length = 32)
   private UserRole role = UserRole.USER;
@@ -52,6 +55,14 @@ public class UserAccount {
     return new UserAccount(email, username, passwordHash);
   }
 
+  public static UserAccount registerGithub(
+      String email, String username, String passwordHash, String githubId, Instant verifiedAt) {
+    UserAccount user = new UserAccount(email, username, passwordHash);
+    user.linkGithub(githubId);
+    user.verifyEmail(verifiedAt);
+    return user;
+  }
+
   public UUID id() {
     return id;
   }
@@ -66,6 +77,10 @@ public class UserAccount {
 
   public String passwordHash() {
     return passwordHash;
+  }
+
+  public String githubId() {
+    return githubId;
   }
 
   public UserRole role() {
@@ -87,6 +102,10 @@ public class UserAccount {
   public void verifyEmail(Instant verifiedAt) {
     emailVerified = true;
     emailVerifiedAt = verifiedAt;
+  }
+
+  public void linkGithub(String githubId) {
+    this.githubId = githubId;
   }
 
   public static String normalizeEmail(String email) {

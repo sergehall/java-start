@@ -27,7 +27,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@EnableConfigurationProperties(SecurityProperties.class)
+@EnableConfigurationProperties({SecurityProperties.class, OAuthProperties.class})
 public class SecurityConfig {
   private static final String CONTENT_SECURITY_POLICY =
       String.join(
@@ -71,6 +71,10 @@ public class SecurityConfig {
                     .permitAll()
                     .requestMatchers(
                         HttpMethod.POST, "/api/v1/auth/email/verify", "/api/v1/auth/email/resend")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/v1/auth/oauth/github/start")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/v1/auth/oauth/github/complete")
                     .permitAll()
                     .requestMatchers(
                         HttpMethod.GET, "/api/v1/options/**", "/actuator/health", "/actuator/info")

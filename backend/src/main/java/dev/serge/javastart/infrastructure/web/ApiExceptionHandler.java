@@ -5,6 +5,9 @@ import dev.serge.javastart.application.EmailVerificationRequiredException;
 import dev.serge.javastart.application.EmailVerificationTokenExpiredException;
 import dev.serge.javastart.application.EmailVerificationTokenInvalidException;
 import dev.serge.javastart.application.InvalidCredentialsException;
+import dev.serge.javastart.application.InvalidOAuthStateException;
+import dev.serge.javastart.application.OAuthConfigurationException;
+import dev.serge.javastart.application.OAuthProviderException;
 import dev.serge.javastart.application.ProfileNotFoundException;
 import java.net.URI;
 import org.springframework.http.HttpStatus;
@@ -23,6 +26,22 @@ public class ApiExceptionHandler {
   @ExceptionHandler(InvalidCredentialsException.class)
   ProblemDetail unauthorized(InvalidCredentialsException exception) {
     return problem(HttpStatus.UNAUTHORIZED, "Invalid credentials", exception.getMessage());
+  }
+
+  @ExceptionHandler(OAuthConfigurationException.class)
+  ProblemDetail oauthNotConfigured(OAuthConfigurationException exception) {
+    return problem(
+        HttpStatus.SERVICE_UNAVAILABLE, "GitHub OAuth unavailable", exception.getMessage());
+  }
+
+  @ExceptionHandler(InvalidOAuthStateException.class)
+  ProblemDetail invalidOAuthState(InvalidOAuthStateException exception) {
+    return problem(HttpStatus.BAD_REQUEST, "Invalid GitHub OAuth state", exception.getMessage());
+  }
+
+  @ExceptionHandler(OAuthProviderException.class)
+  ProblemDetail oauthProviderFailed(OAuthProviderException exception) {
+    return problem(HttpStatus.BAD_GATEWAY, "GitHub OAuth failed", exception.getMessage());
   }
 
   @ExceptionHandler(EmailVerificationRequiredException.class)

@@ -23,7 +23,13 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest(classes = JavaStartApplication.class)
+@SpringBootTest(
+    classes = JavaStartApplication.class,
+    properties = {
+      "app.oauth.github.client-id=test-client",
+      "app.oauth.github.client-secret=test-secret",
+      "app.oauth.github.redirect-uri=http://localhost:3000/auth/oauth/github/callback"
+    })
 @AutoConfigureMockMvc
 @Import(AuthFlowTest.AuthFlowTestConfig.class)
 class AuthFlowTest {
@@ -126,6 +132,35 @@ class AuthFlowTest {
   @Test
   void rejectsProtectedEndpointWithoutToken() throws Exception {
     mockMvc.perform(get("/api/v1/profile")).andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  void startsGithubOAuthWithoutToken() throws Exception {
+    mockMvc
+        .perform(get("/api/v1/auth/oauth/github/start"))
+        .andExpect(status().isFound())
+        .andExpect(header().string("Location", org.hamcrest.Matchers.containsString("github.com")))
+        .andExpect(
+            header()
+                .string("Location", org.hamcrest.Matchers.containsString("client_id=test-client")))
+        .andExpect(header().string("Location", org.hamcrest.Matchers.containsString("state=")));
+  }
+
+  @Test
+  void rejectsInvalidGithubOAuthStateWithoutToken() throws Exception {
+    mockMvc
+        .perform(
+            post("/api/v1/auth/oauth/github/complete")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                    """
+                                {
+                                  "code": "test-code",
+                                  "state": "invalid-state"
+                                }
+                                """))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.title").value("Invalid GitHub OAuth state"));
   }
 
   @Test

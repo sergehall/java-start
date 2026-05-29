@@ -34,6 +34,11 @@ app:
     allowed-origins: ${APP_SECURITY_ALLOWED_ORIGINS:http://localhost:3000,http://127.0.0.1:3000}
     jwt-secret: ${APP_SECURITY_JWT_SECRET:change-me-in-real-env-change-me-in-real-env-32}
     token-ttl: ${APP_SECURITY_TOKEN_TTL:7d}
+  oauth:
+    github:
+      client-id: ${GITHUB_OAUTH_CLIENT_ID:}
+      client-secret: ${GITHUB_OAUTH_CLIENT_SECRET:}
+      redirect-uri: ${GITHUB_OAUTH_REDIRECT_URI:${FRONTEND_URL:http://localhost:3000}/auth/oauth/github/callback}
   mail:
     provider: ${MAIL_PROVIDER:log}
     from: ${MAIL_FROM:${SMTP_FROM_EMAIL:no-reply@java-start.local}}
