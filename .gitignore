@@ -37,6 +37,7 @@ target/
 
 ### Next.js / Node ###
 node_modules/
+.pnpm-store/
 .next/
 coverage/
 dist/
