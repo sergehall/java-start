@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { login, register } from "@/shared/api/client";
 import { loginSchema, registerSchema, type LoginPayload, type RegisterPayload } from "@/shared/api/contracts";
 import { Button } from "@/shared/ui/Button";
+import { SocialAuthActions } from "@/features/auth/SocialAuthActions";
 
 type AuthFormProps = {
   mode: "login" | "register";
@@ -95,6 +96,8 @@ export function AuthForm({ mode }: AuthFormProps) {
       </label>
 
       {error ? <p className="m-0 text-[#a63b2b]">{error}</p> : null}
+
+      {mode === "login" ? <SocialAuthActions /> : null}
 
       <Button type="submit" disabled={isSubmitting}>
         {isSubmitting ? <Loader2 className="animate-spin" size={18} /> : <ArrowRight size={18} />}

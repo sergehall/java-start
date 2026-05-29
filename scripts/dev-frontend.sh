@@ -2,7 +2,7 @@
 set -eu
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-ENV_FILE="$ROOT_DIR/.env.local"
+ENV_FILE="${FRONTEND_ENV_FILE:-$ROOT_DIR/frontend/.env.local}"
 
 # shellcheck disable=SC1091
 . "$ROOT_DIR/scripts/lib/env.sh"
@@ -13,7 +13,7 @@ pnpm dev &
 FRONTEND_PID="$!"
 
 if [ "${OPEN_BROWSER:-1}" != "0" ]; then
-  "$ROOT_DIR/scripts/open-frontend.sh" &
+  ENV_FILE="$ENV_FILE" "$ROOT_DIR/scripts/open-frontend.sh" &
   OPENER_PID="$!"
 else
   OPENER_PID=""

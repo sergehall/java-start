@@ -94,15 +94,9 @@ export async function AppShell({ active, children, eyebrow = "java-start://learn
 
 function AuthDock() {
   return (
-    <div className="flex w-full max-w-[420px] items-center justify-stretch gap-2 rounded-lg border border-[var(--line)] bg-[rgba(255,250,241,0.82)] p-2 shadow-[0_10px_30px_rgba(29,27,23,0.06)] sm:w-auto sm:justify-end sm:border-0 sm:bg-transparent sm:p-0 sm:shadow-none">
+    <div className="flex w-full max-w-[210px] items-center justify-stretch gap-2 sm:w-auto sm:justify-end">
       <Link
-        className="inline-flex min-h-11 flex-1 items-center justify-center rounded-lg border border-[var(--ink)] bg-[var(--ink)] px-4 text-sm font-extrabold text-[var(--panel)] transition-transform hover:-translate-y-px sm:flex-none"
-        href="/register"
-      >
-        Create account
-      </Link>
-      <Link
-        className="inline-flex min-h-11 flex-1 items-center justify-center rounded-lg border border-[var(--line)] bg-[#fffdf8] px-4 text-sm font-extrabold text-[var(--ink)] transition-transform hover:-translate-y-px sm:flex-none"
+        className="border-line text-ink inline-flex min-h-11 flex-1 items-center justify-center rounded-lg border bg-[#fffdf8] px-4 text-sm font-extrabold transition-transform hover:-translate-y-px sm:flex-none"
         href="/login"
       >
         Sign in

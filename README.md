@@ -208,6 +208,35 @@ Username: java_start
 Password: java_start_local_password
 ```
 
+## Local GitHub OAuth App
+
+Production domain is not connected yet. Use a local-only GitHub OAuth App while the project is running on your machine:
+
+```text
+Application name: Java Start Local
+Homepage URL: http://localhost:3000
+Application description: Local Java Start learning app with Next.js and Spring Boot.
+Authorization callback URL: http://localhost:3000/auth/oauth/github/callback
+Enable Device Flow: unchecked
+```
+
+Store GitHub OAuth server secrets in the root backend env file:
+
+```bash
+# .env.local
+GITHUB_OAUTH_CLIENT_ID=replace-with-client-id
+GITHUB_OAUTH_CLIENT_SECRET=replace-with-client-secret
+```
+
+Store the browser-visible OAuth start URL in the frontend env file:
+
+```bash
+# frontend/.env.local
+NEXT_PUBLIC_GITHUB_OAUTH_URL=http://localhost:8080/api/v1/auth/oauth/github/start
+```
+
+Keep `NEXT_PUBLIC_GITHUB_OAUTH_URL` empty until the Spring Boot GitHub OAuth start and callback flow is implemented.
+
 ## Local Production-Like Run
 
 Start the production-like PostgreSQL profile:
@@ -332,12 +361,15 @@ The goal is not to hide complexity. The goal is to keep each layer small enough 
 
 ## Environment Files
 
-- `.env.local` - local development values.
-- `.env` - local production-like values.
-- `.env.local.example` - shareable local development template.
-- `.env.example` - shareable production-like template.
+- `.env.local` - backend and local infrastructure development values.
+- `.env` - backend and local infrastructure production-like values.
+- `.env.local.example` - shareable backend/local infrastructure development template.
+- `.env.example` - shareable backend/local infrastructure production-like template.
+- `frontend/.env.local` - frontend development values.
+- `frontend/.env` - frontend production-like values.
+- `frontend/.env.example` - shareable frontend template.
 
-Important variables:
+Important backend/root variables:
 
 ```bash
 BACKEND_URL=http://localhost:8080
@@ -348,6 +380,17 @@ MAIL_PROVIDER=log
 MAIL_FROM=no-reply@java-start.local
 MAIL_SUPPORT=support@java-start.local
 AUTH_EMAIL_VERIFICATION_TTL_SECONDS=900
+GITHUB_OAUTH_CLIENT_ID=
+GITHUB_OAUTH_CLIENT_SECRET=
+```
+
+Important frontend variables:
+
+```bash
+BACKEND_URL=http://localhost:8080
+FRONTEND_URL=http://localhost:3000
+NEXT_PUBLIC_APP_ENV=local
+NEXT_PUBLIC_GITHUB_OAUTH_URL=
 ```
 
 Registration and authenticated user responses use `username`:

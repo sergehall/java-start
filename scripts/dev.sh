@@ -4,6 +4,7 @@ set -eu
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 RUN_DIR="$ROOT_DIR/.run"
 ENV_FILE="$ROOT_DIR/.env.local"
+FRONTEND_ENV_FILE="$ROOT_DIR/frontend/.env.local"
 BACKEND_READY_TIMEOUT_SECONDS="${BACKEND_READY_TIMEOUT_SECONDS:-90}"
 
 mkdir -p "$RUN_DIR"
@@ -48,7 +49,7 @@ fail_if_port_in_use() {
 }
 
 BACKEND_URL="${BACKEND_URL:-http://localhost:8080}"
-FRONTEND_URL="${FRONTEND_URL:-http://localhost:3000}"
+FRONTEND_URL="$(read_env_value "$FRONTEND_ENV_FILE" FRONTEND_URL "${FRONTEND_URL:-http://localhost:3000}")"
 BACKEND_PORT="$(port_from_url "$BACKEND_URL" "${SERVER_PORT:-8080}")"
 FRONTEND_PORT="$(port_from_url "$FRONTEND_URL" 3000)"
 
@@ -88,7 +89,17 @@ else
   sleep 8
 fi
 
-"$ROOT_DIR/scripts/dev-frontend.sh" &
+env -i \
+  HOME="${HOME:-}" \
+  PATH="${PATH:-}" \
+  SHELL="${SHELL:-/bin/sh}" \
+  USER="${USER:-}" \
+  LOGNAME="${LOGNAME:-}" \
+  TMPDIR="${TMPDIR:-/tmp}" \
+  TERM="${TERM:-xterm-256color}" \
+  OPEN_BROWSER="${OPEN_BROWSER:-1}" \
+  FRONTEND_ENV_FILE="$FRONTEND_ENV_FILE" \
+  "$ROOT_DIR/scripts/dev-frontend.sh" &
 FRONTEND_PID="$!"
 echo "$FRONTEND_PID" > "$RUN_DIR/frontend.pid"
 echo "$$" > "$RUN_DIR/dev.pid"

@@ -4,11 +4,18 @@ set -eu
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 RUN_DIR="$ROOT_DIR/.run"
 ENV_FILE="${ENV_FILE:-$ROOT_DIR/.env.local}"
+FRONTEND_ENV_FILE="${FRONTEND_ENV_FILE:-$ROOT_DIR/frontend/.env.local}"
 
 if [ -f "$ENV_FILE" ]; then
   # shellcheck disable=SC1091
   . "$ROOT_DIR/scripts/lib/env.sh"
   load_env_file "$ENV_FILE"
+fi
+
+if [ -f "$FRONTEND_ENV_FILE" ]; then
+  # shellcheck disable=SC1091
+  . "$ROOT_DIR/scripts/lib/env.sh"
+  load_env_file "$FRONTEND_ENV_FILE"
 fi
 
 port_from_url() {

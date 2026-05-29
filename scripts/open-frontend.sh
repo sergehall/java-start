@@ -2,7 +2,7 @@
 set -eu
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-ENV_FILE="${ENV_FILE:-$ROOT_DIR/.env.local}"
+ENV_FILE="${ENV_FILE:-$ROOT_DIR/frontend/.env.local}"
 
 # shellcheck disable=SC1091
 . "$ROOT_DIR/scripts/lib/env.sh"
