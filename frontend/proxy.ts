@@ -39,9 +39,10 @@ export function proxy(request: NextRequest) {
   const hasSession = SESSION_COOKIE_NAMES.some((cookieName) => Boolean(request.cookies.get(cookieName)?.value));
 
   if (isProtectedPath(pathname) && !hasSession) {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("next", pathname);
-    return redirect(loginUrl);
+    const authUrl = new URL("/", request.url);
+    authUrl.searchParams.set("auth", "sign-in");
+    authUrl.searchParams.set("next", pathname);
+    return redirect(authUrl);
   }
 
   return next();

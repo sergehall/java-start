@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Code2, Coffee, LockKeyhole, Sparkles } from "lucide-react";
+import { OpenAuthModalButton } from "@/features/auth/AuthModal";
 import { AppShell } from "@/shared/ui/AppShell";
 
 export const metadata: Metadata = {
@@ -32,12 +33,7 @@ export default function HomePage() {
               Get started
               <ArrowRight size={18} />
             </Link>
-            <Link
-              className="border-line text-ink inline-flex min-h-[46px] items-center justify-center gap-2.5 rounded-lg border bg-transparent px-[18px] font-extrabold transition duration-150 hover:-translate-y-px"
-              href="/login"
-            >
-              Sign in
-            </Link>
+            <OpenAuthModalButton className="border-line text-ink inline-flex min-h-[46px] items-center justify-center gap-2.5 rounded-lg border bg-transparent px-[18px] font-extrabold transition duration-150 hover:-translate-y-px" />
           </div>
         </div>
 

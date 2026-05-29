@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getCurrentUser } from "@/shared/api/server";
 import type { UserSummary } from "@/shared/api/contracts";
+import { AuthModalHost, OpenAuthModalButton } from "@/features/auth/AuthModal";
 import { cn } from "@/shared/lib/cn";
 import { AccountDock } from "@/shared/ui/AccountDock";
 import { MobileNavDots } from "@/shared/ui/MobileNavDots";
@@ -88,6 +89,7 @@ export async function AppShell({ active, children, eyebrow = "java-start://learn
 
         {children}
       </main>
+      <AuthModalHost />
     </div>
   );
 }
@@ -95,12 +97,7 @@ export async function AppShell({ active, children, eyebrow = "java-start://learn
 function AuthDock() {
   return (
     <div className="flex w-full max-w-[210px] items-center justify-stretch gap-2 sm:w-auto sm:justify-end">
-      <Link
-        className="border-line text-ink inline-flex min-h-11 flex-1 items-center justify-center rounded-lg border bg-[#fffdf8] px-4 text-sm font-extrabold transition-transform hover:-translate-y-px sm:flex-none"
-        href="/login"
-      >
-        Sign in
-      </Link>
+      <OpenAuthModalButton className="border-line text-ink inline-flex min-h-11 flex-1 items-center justify-center rounded-lg border bg-[#fffdf8] px-4 text-sm font-extrabold transition-transform hover:-translate-y-px sm:flex-none" />
     </div>
   );
 }
