@@ -2,20 +2,22 @@
 
 A small fullstack learning lab where Next.js and Java work together instead of living in separate worlds.
 
-The project is intentionally practical: registration, login, JWT authentication, a private dashboard, profile state, PostgreSQL, Docker, local scripts, tests, and a frontend that opens automatically when the dev server is ready.
+The project is intentionally practical: registration, email verification, login, server-side session revocation, JWT authentication, a private dashboard, profile state, PostgreSQL, Docker, local scripts, tests, and a frontend that opens automatically when the dev server is ready.
 
 ## What Is Inside
 
-- `frontend` - Next.js App Router application with TypeScript, React 19, route handlers, forms, and an httpOnly session cookie.
-- `backend` - Spring Boot API with Spring Security, JWT, validation, JPA repositories, PostgreSQL, and focused tests.
+- `frontend` - Next.js App Router application with TypeScript, React 19, route handlers, forms, email verification screens, and an httpOnly session cookie.
+- `backend` - Spring Boot API with Spring Security, JWT, revocable server-side sessions, email verification, SMTP/log mail providers, validation, JPA repositories, PostgreSQL, and focused tests.
 - `docker-compose.local.yml` - local PostgreSQL infrastructure with a reusable Docker volume.
 - `scripts` - one-command local development, infrastructure, database checks, and stop helpers.
 - `src/Main.java` - the original IntelliJ starter file, kept as the first Java step.
 
+Database tables use the learning-project prefix `java-`, for example `"java-user-accounts"` and `"java-user-sessions"`.
+
 ## Tech Stack
 
-- Frontend: Next.js 16, React 19, TypeScript, Zod, React Hook Form, Vitest, Testing Library.
-- Backend: Java 21, Spring Boot 3.5, Spring Web, Spring Security, Spring Data JPA, Bean Validation.
+- Frontend: Next.js 16, React 19, TypeScript, Tailwind CSS, Zod, React Hook Form, Vitest, Testing Library.
+- Backend: Java 21, Spring Boot 3.5, Spring Web, Spring Security, Spring Data JPA, Spring Mail, Bean Validation.
 - Database: PostgreSQL 17 in Docker for local development, H2 fallback for lightweight backend startup/tests.
 - Tooling: pnpm, Maven Wrapper, Docker Compose, ESLint, TypeScript, Vitest, Spring Boot Test.
 
@@ -58,19 +60,27 @@ java-start/
 ## Prerequisites
 
 - Java 21
-- Node.js 22 or newer
+- Node.js 24.15.0
 - pnpm 10
 - Docker Desktop
 
 Recommended setup:
 
 ```bash
+nvm use
 corepack enable
 corepack prepare pnpm@10.33.0 --activate
 java -version
 node -v
 pnpm -v
 docker --version
+```
+
+Node is pinned with `.nvmrc`, `.node-version`, and `engines.node` in the root and frontend package manifests. The expected frontend runtime is:
+
+```bash
+node -v
+# v24.15.0
 ```
 
 For IntelliJ IDEA, import the backend as a Maven project from:
@@ -117,6 +127,18 @@ Stop the app:
 
 ```bash
 pnpm dev:stop
+```
+
+Short alias:
+
+```bash
+pnpm stop
+```
+
+Restart the app from a clean local process state:
+
+```bash
+pnpm dev:restart
 ```
 
 You can also stop it with `Ctrl+C` or the IDE stop button.
@@ -194,6 +216,8 @@ pnpm dev:backend
 pnpm dev:frontend
 pnpm dev:frontend:no-open
 pnpm dev:stop
+pnpm dev:restart
+pnpm stop
 
 # infrastructure
 pnpm infra:up
@@ -205,12 +229,35 @@ pnpm db:check
 pnpm prod:local
 
 # validation
+pnpm lint
+pnpm lint:fix
+pnpm format
+pnpm format:check
+pnpm typecheck
 pnpm check
 ```
 
 </details>
 
 ## Validation
+
+Format the code:
+
+```bash
+pnpm format
+```
+
+Check formatting without changing files:
+
+```bash
+pnpm format:check
+```
+
+Run linting:
+
+```bash
+pnpm lint
+```
 
 Run everything:
 
@@ -240,11 +287,14 @@ pnpm build
 This project is built to make the fullstack flow visible:
 
 1. The browser talks to Next.js pages and route handlers.
-2. Next.js keeps the browser session in an httpOnly cookie.
-3. The frontend BFF calls the Spring Boot API through `BACKEND_URL`.
-4. Spring Security verifies JWT authentication.
-5. Application services coordinate registration, login, profile updates, and dashboard data.
-6. JPA repositories persist users and profiles in PostgreSQL.
+2. Registration creates a pending account and queues an email verification link.
+3. The email link opens `/verify-email`, which confirms the token through the backend.
+4. Next.js keeps the verified browser session in an httpOnly cookie.
+5. The frontend BFF calls the Spring Boot API through `BACKEND_URL`.
+6. Spring Security verifies JWT authentication and checks the session id against `user_sessions`.
+7. Logout revokes the backend session before clearing the browser cookie.
+8. Application services coordinate registration, verification, login, logout, profile updates, and dashboard data.
+9. JPA repositories persist users, sessions, profiles, and email verification tokens in PostgreSQL.
 
 The goal is not to hide complexity. The goal is to keep each layer small enough that you can learn it, change it, test it, and then make it stronger.
 
@@ -262,7 +312,25 @@ BACKEND_URL=http://localhost:8080
 FRONTEND_URL=http://localhost:3000
 SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/java_start_local
 APP_SECURITY_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+MAIL_PROVIDER=log
+MAIL_FROM=no-reply@java-start.local
+MAIL_SUPPORT=support@java-start.local
+AUTH_EMAIL_VERIFICATION_TTL_SECONDS=900
 ```
+
+For real email delivery, switch `MAIL_PROVIDER` to `smtp` and provide the SMTP variables:
+
+```bash
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_REQUIRE_TLS=true
+SMTP_USERNAME=replace-with-smtp-user
+SMTP_APP_PASSWORD=replace-with-smtp-app-password
+SMTP_PASSWORD=replace-with-smtp-password
+```
+
+`SMTP_APP_PASSWORD` is preferred when it is set. Local development defaults to the log provider, so verification links appear in backend logs without sending real email.
 
 Do not use the example secrets for real deployment.
 
