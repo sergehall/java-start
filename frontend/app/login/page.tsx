@@ -38,7 +38,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
         <p className="text-muted leading-relaxed">
           Need an account?{" "}
           <Link
-            className="text-brand-strong rounded-md font-extrabold underline decoration-[var(--brand-ring)] decoration-2 underline-offset-4 transition hover:bg-[var(--brand-wash)] hover:text-[var(--brand)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--brand-ring)]"
+            className="text-brand-strong rounded-md font-extrabold underline decoration-[var(--brand-ring)] decoration-2 underline-offset-4 transition hover:text-[var(--brand)] hover:decoration-[var(--brand)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--brand-ring)]"
             href="/register"
           >
             Create one
