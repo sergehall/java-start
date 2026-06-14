@@ -2,7 +2,7 @@
   "private": true,
   "packageManager": "pnpm@10.33.0",
   "engines": {
-    "node": "24.15.0"
+    "node": "24.16.0"
   },
   "scripts": {
     "dev": "./scripts/dev.sh",
@@ -26,6 +26,7 @@
     "format:check": "pnpm --dir frontend format:check && cd backend && ./mvnw spotless:check",
     "format:check:frontend": "pnpm --dir frontend format:check",
     "format:check:backend": "cd backend && ./mvnw spotless:check",
+    "language:check": "./scripts/check-language.sh",
     "typecheck": "pnpm --dir frontend typecheck",
     "check": "./scripts/check.sh"
   }

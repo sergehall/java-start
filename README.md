@@ -60,7 +60,7 @@ java-start/
 ## Prerequisites
 
 - Java 21
-- Node.js 24.15.0
+- Node.js 24.16.0
 - pnpm 10
 - Docker Desktop
 
@@ -80,7 +80,7 @@ Node is pinned with `.nvmrc`, `.node-version`, and `engines.node` in the root an
 
 ```bash
 node -v
-# v24.15.0
+# v24.16.0
 ```
 
 For IntelliJ IDEA, import the backend as a Maven project from:

@@ -3,6 +3,8 @@ set -eu
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
+"$ROOT_DIR/scripts/check-language.sh"
+
 cd "$ROOT_DIR/backend"
 ./mvnw spotless:check
 ./mvnw test
