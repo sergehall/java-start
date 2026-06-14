@@ -13,7 +13,12 @@ export const publicSiteRoutes = [
   },
   {
     changeFrequency: "monthly",
-    path: "/stack",
+    path: "/java-basics",
+    priority: 0.85
+  },
+  {
+    changeFrequency: "monthly",
+    path: "/architecture",
     priority: 0.8
   },
   {

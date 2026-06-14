@@ -8,7 +8,7 @@ export default function robots(): MetadataRoute.Robots {
     host: siteUrl,
     rules: [
       {
-        allow: ["/", "/stack", "/contact", "/favicon.ico", "/logo-rectangle.png"],
+        allow: ["/", "/java-basics", "/architecture", "/contact", "/favicon.ico", "/logo-rectangle.png"],
         disallow: ["/api/", "/dashboard", "/profile", "/settings", "/states", "/verify-email"],
         userAgent: "*"
       }

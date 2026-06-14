@@ -15,15 +15,17 @@ type NavItem = {
 
 const publicNavigation: NavItem[] = [
   { id: "home", href: "/", label: "Home" },
-  { id: "stack", href: "/stack", label: "Stack lab" },
+  { id: "java-basics", href: "/java-basics", label: "Java Fundamentals" },
+  { id: "architecture", href: "/architecture", label: "Project Architecture" },
   { id: "contact", href: "/contact", label: "Contact" }
 ];
 
 const privateNavigation: NavItem[] = [
   { id: "dashboard", href: "/dashboard", label: "Dashboard" },
+  { id: "java-basics", href: "/java-basics", label: "Java Fundamentals" },
   { id: "profile", href: "/profile", label: "Profile" },
   { id: "states", href: "/states", label: "Learning states" },
-  { id: "stack", href: "/stack", label: "Stack lab" },
+  { id: "architecture", href: "/architecture", label: "Project Architecture" },
   { id: "contact", href: "/contact", label: "Contact" },
   { id: "settings", href: "/settings", label: "Settings" }
 ];
