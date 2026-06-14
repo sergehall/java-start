@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
-import { ArrowRight, Code2, Coffee, LockKeyhole, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, CheckCircle2, Code2, GitBranch, ShieldCheck } from "lucide-react";
 import { OpenAuthModalButton } from "@/features/auth/AuthModal";
+import { homeLearningHighlights } from "@/features/home/content";
+import { HomeJavaLab } from "@/features/home/HomeJavaLab";
 import { AppShell } from "@/shared/ui/AppShell";
 
 export const metadata: Metadata = {
@@ -31,53 +34,103 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       initialAuthMode={authMode}
       initialAuthOpen={shouldOpenAuth}
     >
-      <section className="mx-auto grid w-full max-w-[1180px] grid-cols-[minmax(0,0.9fr)_minmax(320px,1.1fr)] items-center gap-10 max-lg:grid-cols-1">
-        <div>
-          <p className="text-brand mb-3 text-xs font-extrabold uppercase">Next.js + Java Spring Boot</p>
-          <h1 className="m-0 text-[clamp(2.8rem,9vw,6.4rem)] leading-none tracking-normal">
-            Fullstack learning without pretending the stack is magic.
-          </h1>
-          <p className="text-muted max-w-[660px] text-lg leading-relaxed">
-            A learning dashboard where frontend and backend work as a pair: Next.js keeps the web interface fast, while
-            Java owns security, data, and a clear API.
-          </p>
-          <div className="mt-7 flex flex-wrap items-center gap-3">
-            <OpenAuthModalButton
-              className="bg-ink text-panel inline-flex min-h-[46px] items-center justify-center gap-2.5 rounded-lg border border-transparent px-[18px] font-extrabold transition duration-150 hover:-translate-y-px"
-              mode="sign-up"
-            >
-              Get started
-              <ArrowRight size={18} />
-            </OpenAuthModalButton>
-            <OpenAuthModalButton className="border-line text-ink inline-flex min-h-[46px] items-center justify-center gap-2.5 rounded-lg border bg-transparent px-[18px] font-extrabold transition duration-150 hover:-translate-y-px" />
-          </div>
-        </div>
+      <div className="mx-auto grid w-full max-w-[1240px] gap-8">
+        <section className="grid grid-cols-[minmax(0,0.95fr)_minmax(360px,1.05fr)] items-center gap-8 max-lg:grid-cols-1">
+          <div className="grid gap-6">
+            <div>
+              <p className="text-brand mb-3 text-xs font-extrabold uppercase">Next.js + Java Spring Boot</p>
+              <h1 className="m-0 max-w-[720px] text-[clamp(2.55rem,5.8vw,4.7rem)] leading-none tracking-normal">
+                Learn Java by watching the stack come alive.
+              </h1>
+              <p className="text-muted max-w-[680px] text-lg leading-relaxed">
+                Java Start connects the fundamentals, Spring Boot boundaries, secure sessions, PostgreSQL persistence,
+                and a Next.js interface into one practical learning workspace.
+              </p>
+            </div>
 
-        <div
-          className="border-line grid min-h-[520px] grid-cols-1 place-items-center gap-[18px] rounded-lg border bg-[#efe7db] bg-[linear-gradient(90deg,rgba(29,27,23,0.04)_1px,transparent_1px),linear-gradient(0deg,rgba(29,27,23,0.04)_1px,transparent_1px)] bg-[length:32px_32px] p-7 max-lg:min-h-0"
-          aria-label="Application stack preview"
-        >
-          <div className="border-line border-t-blue flex w-full max-w-[360px] flex-col items-start gap-3 rounded-lg border border-t-[5px] bg-[rgba(255,250,241,0.92)] p-6 shadow-[var(--shadow-card)]">
-            <Code2 size={24} />
-            <span className="text-muted font-extrabold">Next.js</span>
-            <strong className="text-2xl">UI, routes, BFF</strong>
+            <div className="grid gap-3">
+              {[
+                "Write small Java examples that explain memory, input safety, and behavior.",
+                "Move from syntax to domain design without mixing HTTP code into business rules.",
+                "Use focused tests as proof instead of hoping the application still works."
+              ].map((item) => (
+                <div className="flex gap-3 text-sm font-bold text-[var(--muted)]" key={item}>
+                  <CheckCircle2 className="mt-0.5 flex-none text-[var(--mint)]" size={18} aria-hidden="true" />
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <Link
+                className="bg-ink text-panel inline-flex min-h-[46px] items-center justify-center gap-2.5 rounded-lg border border-transparent px-[18px] font-extrabold transition duration-150 hover:-translate-y-px focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--brand-ring)]"
+                href="/java-basics"
+              >
+                Open Java map
+                <ArrowRight size={18} aria-hidden="true" />
+              </Link>
+              <OpenAuthModalButton
+                className="border-line text-ink inline-flex min-h-[46px] items-center justify-center gap-2.5 rounded-lg border bg-transparent px-[18px] font-extrabold transition duration-150 hover:-translate-y-px focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--brand-ring)]"
+                mode="sign-up"
+              >
+                Create account
+              </OpenAuthModalButton>
+            </div>
           </div>
-          <div className="h-1 w-[min(280px,70%)] bg-[repeating-linear-gradient(90deg,var(--mint),var(--mint)_12px,transparent_12px,transparent_22px)]" />
-          <div className="border-line border-t-brand flex w-full max-w-[360px] flex-col items-start gap-3 rounded-lg border border-t-[5px] bg-[rgba(255,250,241,0.92)] p-6 shadow-[var(--shadow-card)]">
-            <Coffee size={24} />
-            <span className="text-muted font-extrabold">Spring Boot</span>
-            <strong className="text-2xl">Auth, API, domain</strong>
+
+          <HomeJavaLab />
+        </section>
+
+        <section className="grid grid-cols-[minmax(0,0.82fr)_minmax(280px,0.5fr)] gap-4 max-lg:grid-cols-1">
+          <div className="border-line grid grid-cols-2 gap-3 rounded-lg border bg-[rgba(255,250,241,0.72)] p-3 shadow-[var(--shadow-card)] max-md:grid-cols-1">
+            {homeLearningHighlights.map((item) => {
+              const Icon = item.icon;
+
+              return (
+                <Link
+                  className="border-line grid min-h-[168px] content-start gap-3 rounded-lg border bg-[#fffdf8] p-4 transition-transform hover:-translate-y-px hover:border-[var(--brand-ring)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--brand-ring)]"
+                  href={item.href}
+                  key={item.title}
+                >
+                  <Icon className="text-brand-strong" size={24} aria-hidden="true" />
+                  <strong className="text-2xl leading-tight">{item.title}</strong>
+                  <span className="text-muted leading-relaxed">{item.description}</span>
+                </Link>
+              );
+            })}
           </div>
-          <div className="border-line flex w-[min(360px,100%)] items-center gap-2.5 rounded-lg border bg-[rgba(255,250,241,0.92)] px-4 py-3.5 shadow-[var(--shadow-card)]">
-            <LockKeyhole size={18} />
-            <span className="text-muted font-extrabold">httpOnly session cookie</span>
-          </div>
-          <div className="border-line flex w-[min(360px,100%)] items-center gap-2.5 rounded-lg border bg-[rgba(255,250,241,0.92)] px-4 py-3.5 shadow-[var(--shadow-card)]">
-            <Sparkles size={18} />
-            <span className="text-muted font-extrabold">Learning state cabinet</span>
-          </div>
-        </div>
-      </section>
+
+          <aside className="border-line bg-dark text-dark-text grid content-between gap-5 rounded-lg border p-5 shadow-[var(--shadow-card)]">
+            <div className="grid gap-4">
+              <Code2 className="text-brand-soft" size={28} aria-hidden="true" />
+              <h2 className="m-0 text-3xl leading-tight">One project, four boundaries.</h2>
+              <p className="text-dark-muted m-0 leading-relaxed">
+                Build the mental model once: the browser handles interaction, Java owns domain rules, the API protects
+                boundaries, and tests prove behavior.
+              </p>
+            </div>
+            <div className="grid gap-3">
+              {[
+                { icon: Code2, label: "Next.js UI" },
+                { icon: GitBranch, label: "Java domain flow" },
+                { icon: ShieldCheck, label: "Secure API boundary" }
+              ].map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <div
+                    className="border-dark-line bg-dark-panel flex items-center gap-3 rounded-lg border px-4 py-3"
+                    key={item.label}
+                  >
+                    <Icon className="text-brand-soft" size={18} aria-hidden="true" />
+                    <span className="font-extrabold text-[var(--dark-muted)]">{item.label}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </aside>
+        </section>
+      </div>
     </AppShell>
   );
 }
