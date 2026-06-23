@@ -1,6 +1,16 @@
 "use client";
 
-import { CheckCircle2, ChevronRight, ClipboardCheck, Download, FileCode2, X } from "lucide-react";
+import {
+  CheckCircle2,
+  ChevronRight,
+  ClipboardCheck,
+  Download,
+  FileCode2,
+  FileText,
+  MessageSquare,
+  Rocket,
+  X
+} from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type {
   CourseAssignment,
@@ -89,6 +99,74 @@ function ModuleContentItem({
   item: CourseModuleItem;
   onOpenAssignment: (assignmentId: string) => void;
 }>) {
+  if (item.type === "Page") {
+    return (
+      <div className="border-line grid min-h-[86px] grid-cols-[44px_minmax(0,1fr)] items-center gap-4 border-b px-5 py-4 last:border-b-0 sm:px-10">
+        <FileText className="text-[var(--ink)]" size={30} strokeWidth={1.8} aria-hidden="true" />
+        <strong className="min-w-0 text-xl leading-tight font-extrabold text-[var(--ink)] sm:text-2xl">
+          {item.title}
+        </strong>
+      </div>
+    );
+  }
+
+  if (item.type === "Quiz") {
+    return (
+      <div className="border-line grid min-h-[86px] grid-cols-[44px_minmax(0,1fr)] items-center gap-4 border-b px-5 py-4 last:border-b-0 sm:px-10">
+        <Rocket className="text-[var(--ink)]" size={30} strokeWidth={2.2} aria-hidden="true" />
+        <span className="min-w-0">
+          <strong className="block text-xl leading-tight font-extrabold text-[var(--ink)] sm:text-2xl">
+            {item.title}
+          </strong>
+          {item.dueLabel || item.points ? (
+            <span className="text-muted mt-1 flex flex-wrap gap-x-5 gap-y-1 text-base font-semibold">
+              {item.dueLabel ? <span>{item.dueLabel}</span> : null}
+              {item.points ? <span>{item.points}</span> : null}
+            </span>
+          ) : null}
+        </span>
+      </div>
+    );
+  }
+
+  if (item.type === "Discussion") {
+    return (
+      <div className="border-line grid min-h-[86px] grid-cols-[44px_minmax(0,1fr)] items-center gap-4 border-b px-5 py-4 last:border-b-0 sm:px-10">
+        <MessageSquare className="text-[var(--ink)]" size={30} strokeWidth={1.8} aria-hidden="true" />
+        <span className="min-w-0">
+          <strong className="block text-xl leading-tight font-extrabold text-[var(--ink)] sm:text-2xl">
+            {item.title}
+          </strong>
+          {item.dueLabel || item.points ? (
+            <span className="text-muted mt-1 flex flex-wrap gap-x-5 gap-y-1 text-base font-semibold">
+              {item.dueLabel ? <span>{item.dueLabel}</span> : null}
+              {item.points ? <span>{item.points}</span> : null}
+            </span>
+          ) : null}
+        </span>
+      </div>
+    );
+  }
+
+  if (item.type === "Assignment" && !assignment) {
+    return (
+      <div className="border-line grid min-h-[86px] grid-cols-[44px_minmax(0,1fr)] items-center gap-4 border-b px-5 py-4 last:border-b-0 sm:px-10">
+        <Rocket className="text-[var(--ink)]" size={30} strokeWidth={2.2} aria-hidden="true" />
+        <span className="min-w-0">
+          <strong className="block text-xl leading-tight font-extrabold text-[var(--ink)] sm:text-2xl">
+            {item.title}
+          </strong>
+          {item.dueLabel || item.points ? (
+            <span className="text-muted mt-1 flex flex-wrap gap-x-5 gap-y-1 text-base font-semibold">
+              {item.dueLabel ? <span>{item.dueLabel}</span> : null}
+              {item.points ? <span>{item.points}</span> : null}
+            </span>
+          ) : null}
+        </span>
+      </div>
+    );
+  }
+
   const content = (
     <>
       <span className="text-muted text-xs font-black uppercase">{item.type}</span>

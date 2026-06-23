@@ -57,14 +57,53 @@ describe("course module content", () => {
 
     expect(javaReview?.sections.map((section) => section.title)).toEqual(["Overview", "Setup", "Lecture", "Tasks"]);
 
-    for (const sectionId of ["overview", "setup", "lecture"]) {
+    for (const sectionId of ["overview"]) {
       const section = javaReview?.sections.find((item) => item.id === sectionId);
 
       expect(section?.items).toEqual([]);
       expect(section?.description).toEqual(expect.any(String));
     }
 
-    expect(javaReview?.sections.flatMap((section) => section.items)).toHaveLength(1);
+    const setup = javaReview?.sections.find((section) => section.id === "setup");
+
+    expect(setup?.items.map((item) => item.title)).toEqual([
+      "Install Java Development Kit (JDK)",
+      "Install Maven",
+      "How to create a Java Project"
+    ]);
+    expect(setup?.items.every((item) => item.type === "Page")).toBe(true);
+
+    const lecture = javaReview?.sections.find((section) => section.id === "lecture");
+
+    expect(lecture?.items.map((item) => item.title)).toEqual([
+      "Lecture: Java Basics",
+      "Quiz - Basic Program",
+      "Lecture: Arithmetic",
+      "Quiz - Arithmetic",
+      "Lecture: Conditions",
+      "Quiz - Conditions",
+      "Lecture: Logical Operators & Nested Conditions",
+      "Quiz - Nested Conditions",
+      "Lecture: Switch Statement",
+      "Quiz - Switch",
+      "Lecture: Loops",
+      "Quiz - Loops",
+      "Lecture: Methods",
+      "Quiz - Methods",
+      "Lecture: Arrays",
+      "Quiz - Arrays",
+      "Lecture: Classes & Objects",
+      "Quiz - OOP",
+      "Reading: Java Review"
+    ]);
+    expect(lecture?.items.filter((item) => item.type === "Quiz")).toHaveLength(9);
+    expect(lecture?.items.find((item) => item.id === "quiz-loops")).toMatchObject({
+      dueLabel: "Jun 28",
+      points: "5 pts",
+      type: "Quiz"
+    });
+
+    expect(javaReview?.sections.flatMap((section) => section.items)).toHaveLength(23);
 
     const task = javaReview?.sections
       .find((section) => section.id === "tasks")
@@ -74,6 +113,120 @@ describe("course module content", () => {
       dueLabel: "Jun 28",
       points: "20 pts",
       title: "Assignment: Java Review",
+      type: "Assignment"
+    });
+  });
+
+  it("should expose Inheritance Canvas module sections and task metadata", () => {
+    const inheritance = courseModules.find((module) => module.id === "inheritance");
+
+    expect(inheritance?.sections.map((section) => section.title)).toEqual(["Overview", "Lecture", "Tasks"]);
+
+    expect(inheritance?.sections.find((section) => section.id === "overview")?.items).toEqual([
+      {
+        id: "inheritance-overview",
+        title: "Inheritance: Overview",
+        type: "Page",
+        href: "#inheritance-overview"
+      }
+    ]);
+
+    const lecture = inheritance?.sections.find((section) => section.id === "lecture");
+
+    expect(lecture?.items.map((item) => item.title)).toEqual([
+      "Lecture: Inheritance",
+      "Quiz - Inheritance",
+      "Lecture: Packages",
+      "Quiz - Packages",
+      "Lecture: Access Levels",
+      "Quiz - Access Levels",
+      "Lecture: Constructors & super Keyword",
+      "Quiz - Inheritance: Constructors & super",
+      "Lecture: Abstract Classes",
+      "Quiz - Abstract Classes",
+      "Reading: Inheritance"
+    ]);
+    expect(lecture?.items.filter((item) => item.type === "Quiz")).toHaveLength(5);
+    expect(lecture?.items.find((item) => item.id === "quiz-inheritance")).toMatchObject({
+      dueLabel: "Jun 28",
+      points: "3 pts",
+      type: "Quiz"
+    });
+
+    const discussion = inheritance?.sections
+      .find((section) => section.id === "tasks")
+      ?.items.find((item) => item.id === "discussion-inheritance");
+
+    expect(discussion).toMatchObject({
+      dueLabel: "Jun 25",
+      points: "5 pts",
+      title: "Discussion: Inheritance",
+      type: "Discussion"
+    });
+  });
+
+  it("should expose Polymorphism Canvas module sections and task metadata", () => {
+    const polymorphism = courseModules.find((module) => module.id === "polymorphism-dynamic-binding-interfaces");
+
+    expect(polymorphism?.sections.map((section) => section.title)).toEqual([
+      "Overview",
+      "Lecture - Polymorphism & Dynamic Binding",
+      "Lecture - Interfaces",
+      "Tasks"
+    ]);
+
+    expect(polymorphism?.sections.find((section) => section.id === "overview")?.items).toEqual([
+      {
+        id: "polymorphism-overview",
+        title: "Polymorphism: Overview",
+        type: "Page",
+        href: "#polymorphism-overview"
+      }
+    ]);
+
+    const dynamicBindingLecture = polymorphism?.sections.find(
+      (section) => section.id === "lecture-polymorphism-dynamic-binding"
+    );
+
+    expect(dynamicBindingLecture?.items.map((item) => item.title)).toEqual([
+      "Lecture: Polymorphism",
+      "Quiz: Polymorphism",
+      "Lecture: Overriding Methods",
+      "Quiz: Overriding Methods",
+      "Lecture: Dynamic Binding",
+      "Quiz: Dynamic Binding"
+    ]);
+    expect(dynamicBindingLecture?.items.filter((item) => item.type === "Quiz")).toHaveLength(3);
+
+    const interfaceLecture = polymorphism?.sections.find((section) => section.id === "lecture-interfaces");
+
+    expect(interfaceLecture?.items.map((item) => item.title)).toEqual([
+      "Lecture: Intro to Interfaces",
+      "Lecture: Extending an Interface",
+      "Quiz: Interfaces",
+      "Lecture: More on Interfaces",
+      "Quiz: More on Interfaces",
+      "Lecture: Anonymous Classes",
+      "Quiz: Anonymous Classes",
+      "Lecture: Functional Interfaces",
+      "Quiz: Functional Interfaces",
+      "Reading: Polymorphism & Interfaces"
+    ]);
+    expect(interfaceLecture?.items.filter((item) => item.type === "Quiz")).toHaveLength(4);
+    expect(interfaceLecture?.items.find((item) => item.id === "quiz-interfaces")).toMatchObject({
+      dueLabel: "Jun 28",
+      points: "4 pts",
+      type: "Quiz"
+    });
+
+    const assignment = polymorphism?.sections
+      .find((section) => section.id === "tasks")
+      ?.items.find((item) => item.id === "assignment-polymorphism");
+
+    expect(assignment).toMatchObject({
+      dueLabel: "Jun 28",
+      points: "1 pts",
+      title: "Assignment: Polymorphism",
       type: "Assignment"
     });
   });

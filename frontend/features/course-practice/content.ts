@@ -21,7 +21,7 @@ export type CourseAssignmentFile = Readonly<{
 export type CourseModuleItem = Readonly<{
   id: string;
   title: string;
-  type: "Assignment" | "Page" | "Quiz";
+  type: "Assignment" | "Discussion" | "Page" | "Quiz";
   href: string;
   dueLabel?: string;
   points?: string;
@@ -435,14 +435,166 @@ const javaReviewSections: readonly CourseModuleSection[] = [
     title: "Setup",
     description:
       "Setup is treated as a local readiness checkpoint. We will keep the project ready in IntelliJ with Java 21, Maven, and a clean folder structure, but we will not duplicate the Canvas setup pages here.",
-    items: []
+    items: [
+      {
+        id: "install-java-development-kit",
+        title: "Install Java Development Kit (JDK)",
+        type: "Page",
+        href: "#install-java-development-kit"
+      },
+      {
+        id: "install-maven",
+        title: "Install Maven",
+        type: "Page",
+        href: "#install-maven"
+      },
+      {
+        id: "create-java-project",
+        title: "How to create a Java Project",
+        type: "Page",
+        href: "#create-java-project"
+      }
+    ]
   },
   {
     id: "lecture",
     title: "Lecture",
     description:
       "Lecture work stays in Canvas. Here we will use the lecture sequence as a study map only: basics, arithmetic, conditions, switch, loops, methods, arrays, classes, and objects. The actual practice work happens in the Tasks area below.",
-    items: []
+    items: [
+      {
+        id: "lecture-java-basics",
+        title: "Lecture: Java Basics",
+        type: "Page",
+        href: "#lecture-java-basics"
+      },
+      {
+        id: "quiz-basic-program",
+        title: "Quiz - Basic Program",
+        type: "Quiz",
+        href: "#quiz-basic-program",
+        dueLabel: "Jun 28",
+        points: "4 pts"
+      },
+      {
+        id: "lecture-arithmetic",
+        title: "Lecture: Arithmetic",
+        type: "Page",
+        href: "#lecture-arithmetic"
+      },
+      {
+        id: "quiz-arithmetic",
+        title: "Quiz - Arithmetic",
+        type: "Quiz",
+        href: "#quiz-arithmetic",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-conditions",
+        title: "Lecture: Conditions",
+        type: "Page",
+        href: "#lecture-conditions"
+      },
+      {
+        id: "quiz-conditions",
+        title: "Quiz - Conditions",
+        type: "Quiz",
+        href: "#quiz-conditions",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-logical-operators-nested-conditions",
+        title: "Lecture: Logical Operators & Nested Conditions",
+        type: "Page",
+        href: "#lecture-logical-operators-nested-conditions"
+      },
+      {
+        id: "quiz-nested-conditions",
+        title: "Quiz - Nested Conditions",
+        type: "Quiz",
+        href: "#quiz-nested-conditions",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-switch-statement",
+        title: "Lecture: Switch Statement",
+        type: "Page",
+        href: "#lecture-switch-statement"
+      },
+      {
+        id: "quiz-switch",
+        title: "Quiz - Switch",
+        type: "Quiz",
+        href: "#quiz-switch",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-loops",
+        title: "Lecture: Loops",
+        type: "Page",
+        href: "#lecture-loops"
+      },
+      {
+        id: "quiz-loops",
+        title: "Quiz - Loops",
+        type: "Quiz",
+        href: "#quiz-loops",
+        dueLabel: "Jun 28",
+        points: "5 pts"
+      },
+      {
+        id: "lecture-methods",
+        title: "Lecture: Methods",
+        type: "Page",
+        href: "#lecture-methods"
+      },
+      {
+        id: "quiz-methods",
+        title: "Quiz - Methods",
+        type: "Quiz",
+        href: "#quiz-methods",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-arrays",
+        title: "Lecture: Arrays",
+        type: "Page",
+        href: "#lecture-arrays"
+      },
+      {
+        id: "quiz-arrays",
+        title: "Quiz - Arrays",
+        type: "Quiz",
+        href: "#quiz-arrays",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-classes-objects",
+        title: "Lecture: Classes & Objects",
+        type: "Page",
+        href: "#lecture-classes-objects"
+      },
+      {
+        id: "quiz-oop",
+        title: "Quiz - OOP",
+        type: "Quiz",
+        href: "#quiz-oop",
+        dueLabel: "Jun 28",
+        points: "4 pts"
+      },
+      {
+        id: "reading-java-review",
+        title: "Reading: Java Review",
+        type: "Page",
+        href: "#reading-java-review"
+      }
+    ]
   },
   {
     id: "tasks",
@@ -455,6 +607,268 @@ const javaReviewSections: readonly CourseModuleSection[] = [
         href: "https://online.smc.edu/courses/83001/modules/items/5314850",
         dueLabel: "Jun 28",
         points: "20 pts"
+      }
+    ]
+  }
+];
+
+const inheritanceSections: readonly CourseModuleSection[] = [
+  {
+    id: "overview",
+    title: "Overview",
+    items: [
+      {
+        id: "inheritance-overview",
+        title: "Inheritance: Overview",
+        type: "Page",
+        href: "#inheritance-overview"
+      }
+    ]
+  },
+  {
+    id: "lecture",
+    title: "Lecture",
+    items: [
+      {
+        id: "lecture-inheritance",
+        title: "Lecture: Inheritance",
+        type: "Page",
+        href: "#lecture-inheritance"
+      },
+      {
+        id: "quiz-inheritance",
+        title: "Quiz - Inheritance",
+        type: "Quiz",
+        href: "#quiz-inheritance",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-packages",
+        title: "Lecture: Packages",
+        type: "Page",
+        href: "#lecture-packages"
+      },
+      {
+        id: "quiz-packages",
+        title: "Quiz - Packages",
+        type: "Quiz",
+        href: "#quiz-packages",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-access-levels",
+        title: "Lecture: Access Levels",
+        type: "Page",
+        href: "#lecture-access-levels"
+      },
+      {
+        id: "quiz-access-levels",
+        title: "Quiz - Access Levels",
+        type: "Quiz",
+        href: "#quiz-access-levels",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-constructors-super-keyword",
+        title: "Lecture: Constructors & super Keyword",
+        type: "Page",
+        href: "#lecture-constructors-super-keyword"
+      },
+      {
+        id: "quiz-inheritance-constructors-super",
+        title: "Quiz - Inheritance: Constructors & super",
+        type: "Quiz",
+        href: "#quiz-inheritance-constructors-super",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-abstract-classes",
+        title: "Lecture: Abstract Classes",
+        type: "Page",
+        href: "#lecture-abstract-classes"
+      },
+      {
+        id: "quiz-abstract-classes",
+        title: "Quiz - Abstract Classes",
+        type: "Quiz",
+        href: "#quiz-abstract-classes",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "reading-inheritance",
+        title: "Reading: Inheritance",
+        type: "Page",
+        href: "#reading-inheritance"
+      }
+    ]
+  },
+  {
+    id: "tasks",
+    title: "Tasks",
+    items: [
+      {
+        id: "discussion-inheritance",
+        title: "Discussion: Inheritance",
+        type: "Discussion",
+        href: "#discussion-inheritance",
+        dueLabel: "Jun 25",
+        points: "5 pts"
+      }
+    ]
+  }
+];
+
+const polymorphismSections: readonly CourseModuleSection[] = [
+  {
+    id: "overview",
+    title: "Overview",
+    items: [
+      {
+        id: "polymorphism-overview",
+        title: "Polymorphism: Overview",
+        type: "Page",
+        href: "#polymorphism-overview"
+      }
+    ]
+  },
+  {
+    id: "lecture-polymorphism-dynamic-binding",
+    title: "Lecture - Polymorphism & Dynamic Binding",
+    items: [
+      {
+        id: "lecture-polymorphism",
+        title: "Lecture: Polymorphism",
+        type: "Page",
+        href: "#lecture-polymorphism"
+      },
+      {
+        id: "quiz-polymorphism",
+        title: "Quiz: Polymorphism",
+        type: "Quiz",
+        href: "#quiz-polymorphism",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-overriding-methods",
+        title: "Lecture: Overriding Methods",
+        type: "Page",
+        href: "#lecture-overriding-methods"
+      },
+      {
+        id: "quiz-overriding-methods",
+        title: "Quiz: Overriding Methods",
+        type: "Quiz",
+        href: "#quiz-overriding-methods",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-dynamic-binding",
+        title: "Lecture: Dynamic Binding",
+        type: "Page",
+        href: "#lecture-dynamic-binding"
+      },
+      {
+        id: "quiz-dynamic-binding",
+        title: "Quiz: Dynamic Binding",
+        type: "Quiz",
+        href: "#quiz-dynamic-binding",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      }
+    ]
+  },
+  {
+    id: "lecture-interfaces",
+    title: "Lecture - Interfaces",
+    items: [
+      {
+        id: "lecture-intro-to-interfaces",
+        title: "Lecture: Intro to Interfaces",
+        type: "Page",
+        href: "#lecture-intro-to-interfaces"
+      },
+      {
+        id: "lecture-extending-an-interface",
+        title: "Lecture: Extending an Interface",
+        type: "Page",
+        href: "#lecture-extending-an-interface"
+      },
+      {
+        id: "quiz-interfaces",
+        title: "Quiz: Interfaces",
+        type: "Quiz",
+        href: "#quiz-interfaces",
+        dueLabel: "Jun 28",
+        points: "4 pts"
+      },
+      {
+        id: "lecture-more-on-interfaces",
+        title: "Lecture: More on Interfaces",
+        type: "Page",
+        href: "#lecture-more-on-interfaces"
+      },
+      {
+        id: "quiz-more-on-interfaces",
+        title: "Quiz: More on Interfaces",
+        type: "Quiz",
+        href: "#quiz-more-on-interfaces",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-anonymous-classes",
+        title: "Lecture: Anonymous Classes",
+        type: "Page",
+        href: "#lecture-anonymous-classes"
+      },
+      {
+        id: "quiz-anonymous-classes",
+        title: "Quiz: Anonymous Classes",
+        type: "Quiz",
+        href: "#quiz-anonymous-classes",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-functional-interfaces",
+        title: "Lecture: Functional Interfaces",
+        type: "Page",
+        href: "#lecture-functional-interfaces"
+      },
+      {
+        id: "quiz-functional-interfaces",
+        title: "Quiz: Functional Interfaces",
+        type: "Quiz",
+        href: "#quiz-functional-interfaces",
+        dueLabel: "Jun 28",
+        points: "3 pts"
+      },
+      {
+        id: "reading-polymorphism-interfaces",
+        title: "Reading: Polymorphism & Interfaces",
+        type: "Page",
+        href: "#reading-polymorphism-interfaces"
+      }
+    ]
+  },
+  {
+    id: "tasks",
+    title: "Tasks",
+    items: [
+      {
+        id: "assignment-polymorphism",
+        title: "Assignment: Polymorphism",
+        type: "Assignment",
+        href: "#assignment-polymorphism",
+        dueLabel: "Jun 28",
+        points: "1 pts"
       }
     ]
   }
@@ -495,7 +909,7 @@ export const courseModules: readonly CourseModule[] = [
     dateRange: "Jun 22 - Jun 28",
     description: "Practice class hierarchies, constructors, super, access levels, and inherited behavior.",
     topics: ["Inheritance", "Constructors and super", "Access levels"],
-    sections: [],
+    sections: inheritanceSections,
     assignments: []
   },
   {
@@ -506,7 +920,7 @@ export const courseModules: readonly CourseModule[] = [
     dateRange: "Jun 22 - Jun 28",
     description: "Work with overridden behavior, abstract classes, interfaces, anonymous classes, and dynamic binding.",
     topics: ["Polymorphism", "Dynamic binding", "Interfaces", "Abstract classes", "Anonymous classes"],
-    sections: [],
+    sections: polymorphismSections,
     assignments: []
   },
   {

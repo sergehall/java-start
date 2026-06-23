@@ -60,7 +60,7 @@ export default async function PracticeModulePage({ params }: PracticeModulePageP
           <CourseModuleSections assignments={courseModule.assignments} sections={courseModule.sections} />
         ) : null}
 
-        {courseModule.assignments.length === 0 ? (
+        {courseModule.sections.length === 0 && courseModule.assignments.length === 0 ? (
           <p className="border-line text-muted m-0 rounded-lg border bg-[rgba(255,250,241,0.92)] px-5 py-4 font-bold shadow-[var(--shadow-card)]">
             Homework for this module will live here.
           </p>
