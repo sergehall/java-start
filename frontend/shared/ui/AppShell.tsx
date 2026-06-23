@@ -15,6 +15,7 @@ type NavItem = {
 
 const publicNavigation: NavItem[] = [
   { id: "home", href: "/", label: "Home" },
+  { id: "practice", href: "/practice", label: "Practice" },
   { id: "java-basics", href: "/java-basics", label: "Java Fundamentals" },
   { id: "architecture", href: "/architecture", label: "Project Architecture" },
   { id: "contact", href: "/contact", label: "Contact" }
@@ -22,6 +23,7 @@ const publicNavigation: NavItem[] = [
 
 const privateNavigation: NavItem[] = [
   { id: "dashboard", href: "/dashboard", label: "Dashboard" },
+  { id: "practice", href: "/practice", label: "Practice" },
   { id: "java-basics", href: "/java-basics", label: "Java Fundamentals" },
   { id: "profile", href: "/profile", label: "Profile" },
   { id: "states", href: "/states", label: "Learning states" },

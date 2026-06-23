@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { BookOpenCheck, Braces, DatabaseZap, ShieldCheck } from "lucide-react";
+import { BookOpenCheck, Braces, CalendarDays, DatabaseZap, ShieldCheck } from "lucide-react";
 
 export type JavaLabSnippet = Readonly<{
   id: string;
@@ -76,6 +76,12 @@ public final class MemoryMirror {
 ];
 
 export const homeLearningHighlights: readonly HomeLearningHighlight[] = [
+  {
+    title: "CS56 Practice",
+    description: "Open the practice shelf for due dates, topic windows, and assignment briefs.",
+    href: "/practice",
+    icon: CalendarDays
+  },
   {
     title: "Java Fundamentals",
     description: "Open the visual map for syntax, OOP, collections, safety, API design, and focused tests.",
