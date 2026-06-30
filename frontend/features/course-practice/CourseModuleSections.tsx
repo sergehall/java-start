@@ -8,6 +8,7 @@ import {
   FileCode2,
   FileText,
   MessageSquare,
+  Paperclip,
   Rocket,
   X
 } from "lucide-react";
@@ -103,6 +104,17 @@ function ModuleContentItem({
     return (
       <div className="border-line grid min-h-[86px] grid-cols-[44px_minmax(0,1fr)] items-center gap-4 border-b px-5 py-4 last:border-b-0 sm:px-10">
         <FileText className="text-[var(--ink)]" size={30} strokeWidth={1.8} aria-hidden="true" />
+        <strong className="min-w-0 text-xl leading-tight font-extrabold text-[var(--ink)] sm:text-2xl">
+          {item.title}
+        </strong>
+      </div>
+    );
+  }
+
+  if (item.type === "File") {
+    return (
+      <div className="border-line grid min-h-[86px] grid-cols-[44px_minmax(0,1fr)] items-center gap-4 border-b px-5 py-4 last:border-b-0 sm:px-10">
+        <Paperclip className="text-[var(--ink)]" size={30} strokeWidth={1.8} aria-hidden="true" />
         <strong className="min-w-0 text-xl leading-tight font-extrabold text-[var(--ink)] sm:text-2xl">
           {item.title}
         </strong>

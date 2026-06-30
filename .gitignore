@@ -47,3 +47,6 @@ dist/
 .env
 .env.local
 .run/
+
+### Temporary artifacts ###
+tmp/

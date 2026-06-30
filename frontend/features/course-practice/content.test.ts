@@ -36,7 +36,9 @@ describe("course module content", () => {
       "getting-started",
       "java-review",
       "inheritance",
-      "polymorphism-dynamic-binding-interfaces"
+      "polymorphism-dynamic-binding-interfaces",
+      "uml",
+      "exceptions"
     ]);
   });
 
@@ -227,6 +229,113 @@ describe("course module content", () => {
       dueLabel: "Jun 28",
       points: "1 pts",
       title: "Assignment: Polymorphism",
+      type: "Assignment"
+    });
+  });
+
+  it("should expose UML Canvas module sections and task metadata", () => {
+    const uml = courseModules.find((module) => module.id === "uml");
+
+    expect(uml?.sections.map((section) => section.title)).toEqual(["Overview", "Lecture", "Tasks"]);
+
+    expect(uml?.sections.find((section) => section.id === "overview")?.items).toEqual([
+      {
+        id: "uml-overview",
+        title: "UML: Overview",
+        type: "Page",
+        href: "#uml-overview"
+      }
+    ]);
+
+    const lecture = uml?.sections.find((section) => section.id === "lecture");
+
+    expect(lecture?.items.map((item) => item.title)).toEqual([
+      "Lecture: Intro to UML",
+      "Lecture: How to install PlantUML Plugin in IntelliJ",
+      "Lecture: UML - Class Diagrams",
+      "Lecture: UML - Sequence Diagrams"
+    ]);
+    expect(lecture?.items.every((item) => item.type === "Page")).toBe(true);
+
+    const tasks = uml?.sections.find((section) => section.id === "tasks");
+
+    expect(tasks?.items.find((item) => item.id === "discussion-uml")).toMatchObject({
+      dueLabel: "Jul 2",
+      points: "5 pts",
+      title: "Discussion: UML",
+      type: "Discussion"
+    });
+    expect(tasks?.items.find((item) => item.id === "assignment-uml")).toMatchObject({
+      dueLabel: "Jul 5",
+      points: "10 pts",
+      title: "Assignment: UML",
+      type: "Assignment"
+    });
+  });
+
+  it("should expose Exceptions Canvas module sections and task metadata", () => {
+    const exceptions = courseModules.find((module) => module.id === "exceptions");
+
+    expect(exceptions?.sections.map((section) => section.title)).toEqual([
+      "Overview",
+      "Lecture",
+      "Code Example",
+      "Tasks"
+    ]);
+
+    expect(exceptions?.sections.find((section) => section.id === "overview")?.items).toEqual([
+      {
+        id: "exception-overview",
+        title: "Exception: Overview",
+        type: "Page",
+        href: "#exception-overview"
+      }
+    ]);
+
+    const lecture = exceptions?.sections.find((section) => section.id === "lecture");
+
+    expect(lecture?.items.map((item) => item.title)).toEqual([
+      "Lecture: The try-catch Block",
+      "Quiz: Try-Catch Block",
+      "Lecture: Exception Classes",
+      "Quiz: Exception Classes",
+      "Lecture: The finally Block",
+      "Quiz: finally",
+      "Lecture: Exceptions with AutoClosable",
+      "Exceptions: Reading"
+    ]);
+    expect(lecture?.items.filter((item) => item.type === "Quiz")).toHaveLength(3);
+    expect(lecture?.items.find((item) => item.id === "quiz-finally")).toMatchObject({
+      dueLabel: "Jul 5",
+      points: "2 pts",
+      type: "Quiz"
+    });
+
+    const codeExample = exceptions?.sections.find((section) => section.id === "code-example");
+
+    expect(codeExample?.items).toEqual([
+      {
+        id: "divide-by-zero-exception-java",
+        title: "DivideByZeroException.java",
+        type: "File",
+        href: "#divide-by-zero-exception-java"
+      },
+      {
+        id: "mathematics-java",
+        title: "Mathematics.java",
+        type: "File",
+        href: "#mathematics-java"
+      }
+    ]);
+
+    const assignment = exceptions?.sections
+      .find((section) => section.id === "tasks")
+      ?.items.find((item) => item.id === "assignment-exceptions");
+
+    expect(assignment).toMatchObject({
+      dueLabel: "Jul 5",
+      points: "10 pts",
+      title: "Assignment: Exceptions",
       type: "Assignment"
     });
   });

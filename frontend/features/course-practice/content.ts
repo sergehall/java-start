@@ -21,7 +21,7 @@ export type CourseAssignmentFile = Readonly<{
 export type CourseModuleItem = Readonly<{
   id: string;
   title: string;
-  type: "Assignment" | "Discussion" | "Page" | "Quiz";
+  type: "Assignment" | "Discussion" | "File" | "Page" | "Quiz";
   href: string;
   dueLabel?: string;
   points?: string;
@@ -874,6 +874,180 @@ const polymorphismSections: readonly CourseModuleSection[] = [
   }
 ];
 
+const umlSections: readonly CourseModuleSection[] = [
+  {
+    id: "overview",
+    title: "Overview",
+    items: [
+      {
+        id: "uml-overview",
+        title: "UML: Overview",
+        type: "Page",
+        href: "#uml-overview"
+      }
+    ]
+  },
+  {
+    id: "lecture",
+    title: "Lecture",
+    items: [
+      {
+        id: "lecture-intro-to-uml",
+        title: "Lecture: Intro to UML",
+        type: "Page",
+        href: "#lecture-intro-to-uml"
+      },
+      {
+        id: "lecture-install-plantuml-plugin-intellij",
+        title: "Lecture: How to install PlantUML Plugin in IntelliJ",
+        type: "Page",
+        href: "#lecture-install-plantuml-plugin-intellij"
+      },
+      {
+        id: "lecture-uml-class-diagrams",
+        title: "Lecture: UML - Class Diagrams",
+        type: "Page",
+        href: "#lecture-uml-class-diagrams"
+      },
+      {
+        id: "lecture-uml-sequence-diagrams",
+        title: "Lecture: UML - Sequence Diagrams",
+        type: "Page",
+        href: "#lecture-uml-sequence-diagrams"
+      }
+    ]
+  },
+  {
+    id: "tasks",
+    title: "Tasks",
+    items: [
+      {
+        id: "discussion-uml",
+        title: "Discussion: UML",
+        type: "Discussion",
+        href: "#discussion-uml",
+        dueLabel: "Jul 2",
+        points: "5 pts"
+      },
+      {
+        id: "assignment-uml",
+        title: "Assignment: UML",
+        type: "Assignment",
+        href: "#assignment-uml",
+        dueLabel: "Jul 5",
+        points: "10 pts"
+      }
+    ]
+  }
+];
+
+const exceptionsSections: readonly CourseModuleSection[] = [
+  {
+    id: "overview",
+    title: "Overview",
+    items: [
+      {
+        id: "exception-overview",
+        title: "Exception: Overview",
+        type: "Page",
+        href: "#exception-overview"
+      }
+    ]
+  },
+  {
+    id: "lecture",
+    title: "Lecture",
+    items: [
+      {
+        id: "lecture-try-catch-block",
+        title: "Lecture: The try-catch Block",
+        type: "Page",
+        href: "#lecture-try-catch-block"
+      },
+      {
+        id: "quiz-try-catch-block",
+        title: "Quiz: Try-Catch Block",
+        type: "Quiz",
+        href: "#quiz-try-catch-block",
+        dueLabel: "Jul 5",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-exception-classes",
+        title: "Lecture: Exception Classes",
+        type: "Page",
+        href: "#lecture-exception-classes"
+      },
+      {
+        id: "quiz-exception-classes",
+        title: "Quiz: Exception Classes",
+        type: "Quiz",
+        href: "#quiz-exception-classes",
+        dueLabel: "Jul 5",
+        points: "3 pts"
+      },
+      {
+        id: "lecture-finally-block",
+        title: "Lecture: The finally Block",
+        type: "Page",
+        href: "#lecture-finally-block"
+      },
+      {
+        id: "quiz-finally",
+        title: "Quiz: finally",
+        type: "Quiz",
+        href: "#quiz-finally",
+        dueLabel: "Jul 5",
+        points: "2 pts"
+      },
+      {
+        id: "lecture-exceptions-autoclosable",
+        title: "Lecture: Exceptions with AutoClosable",
+        type: "Page",
+        href: "#lecture-exceptions-autoclosable"
+      },
+      {
+        id: "exceptions-reading",
+        title: "Exceptions: Reading",
+        type: "Page",
+        href: "#exceptions-reading"
+      }
+    ]
+  },
+  {
+    id: "code-example",
+    title: "Code Example",
+    items: [
+      {
+        id: "divide-by-zero-exception-java",
+        title: "DivideByZeroException.java",
+        type: "File",
+        href: "#divide-by-zero-exception-java"
+      },
+      {
+        id: "mathematics-java",
+        title: "Mathematics.java",
+        type: "File",
+        href: "#mathematics-java"
+      }
+    ]
+  },
+  {
+    id: "tasks",
+    title: "Tasks",
+    items: [
+      {
+        id: "assignment-exceptions",
+        title: "Assignment: Exceptions",
+        type: "Assignment",
+        href: "#assignment-exceptions",
+        dueLabel: "Jul 5",
+        points: "10 pts"
+      }
+    ]
+  }
+];
+
 export function getJavaReviewAssignmentFile(fileName: string) {
   return javaReviewAssignment.starterFiles.find((file) => file.fileName === fileName) ?? null;
 }
@@ -926,23 +1100,23 @@ export const courseModules: readonly CourseModule[] = [
   {
     id: "uml",
     displayTitle: "Module: Unified Modeling Language",
-    isLocked: true,
+    isLocked: false,
     title: "Unified Modeling Language",
     dateRange: "Jun 29 - Jul 5",
     description: "Describe classes, relationships, inheritance, and responsibilities before writing code.",
     topics: ["Class diagrams", "Relationships", "Design communication"],
-    sections: [],
+    sections: umlSections,
     assignments: []
   },
   {
     id: "exceptions",
     displayTitle: "Module: Exceptions",
-    isLocked: true,
+    isLocked: false,
     title: "Exceptions",
     dateRange: "Jun 29 - Jul 5",
     description: "Handle expected failures with clear exception flows and user-safe messages.",
     topics: ["Exception classes", "try-catch", "finally"],
-    sections: [],
+    sections: exceptionsSections,
     assignments: []
   },
   {
